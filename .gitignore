@@ -1,0 +1,4 @@
+.idea/
+ECollaborationWeb.iml
+target/
+**/resources/application.properties
