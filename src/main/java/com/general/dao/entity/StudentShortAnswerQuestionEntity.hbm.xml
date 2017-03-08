@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="com.general.dao.entity.StudentShortAnswerQuestionEntity" table="Student__Short_Answer_Question"
+           schema="ECollaborationWeb">
+        <composite-id mapped="true" class="com.general.dao.entity.StudentShortAnswerQuestionEntityPK">
+            <key-property name="student" column="student"/>
+            <key-property name="question" column="question"/>
+        </composite-id>
+        <property name="answer" column="answer"/>
+        <many-to-one name="studentByStudent" class="com.general.dao.entity.StudentEntity" insert="false" update="false">
+            <column name="student"/>
+        </many-to-one>
+        <many-to-one name="shortAnswerQuestionByQuestion" class="com.general.dao.entity.ShortAnswerQuestionEntity" insert="false" update="false">
+            <column name="question"/>
+        </many-to-one>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="com.general.dao.entity.ScheduleEntity" table="Schedule" schema="ECollaborationWeb">
+        <id name="id" column="id"/>
+        <property name="title" column="title"/>
+        <property name="beginAt" column="begin_at"/>
+        <property name="endAt" column="end_at"/>
+        <property name="repetition" column="repetition"/>
+        <property name="detail" column="detail"/>
+        <property name="creator" column="creator" insert="false" update="false"/>
+        <many-to-one name="userByCreator" class="com.general.dao.entity.UserEntity">
+            <column name="creator"/>
+        </many-to-one>
+        <set name="scheduleUsersById" inverse="true">
+            <key>
+                <column name="schedule"/>
+            </key>
+            <one-to-many not-found="ignore" class="com.general.dao.entity.ScheduleUserEntity"/>
+        </set>
+    </class>
+</hibernate-mapping>

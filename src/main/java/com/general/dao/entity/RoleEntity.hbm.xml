@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="com.general.dao.entity.RoleEntity" table="Role" schema="ECollaborationWeb">
+        <id name="id" column="id"/>
+        <property name="role" column="role"/>
+        <set name="usersById" inverse="true">
+            <key>
+                <column name="role"/>
+            </key>
+            <one-to-many not-found="ignore" class="com.general.dao.entity.UserEntity"/>
+        </set>
+    </class>
+</hibernate-mapping>

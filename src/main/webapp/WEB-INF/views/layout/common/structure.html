@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <title layout:title-pattern="$CONTENT_TITLE - $LAYOUT_TITLE">Ecollaboration v1.0</title>
+    <link rel="stylesheet" th:href="@{/resources/dist/semantic.min.css}">
+    <link rel="stylesheet" th:href="@{/resources/craft/css/supply.css}">
+    <script th:src="@{//cdn.bootcss.com/jquery/3.1.1/jquery.min.js}"></script>
+    <script th:src="@{//cdn.bootcss.com/semantic-ui/2.2.4/semantic.min.js}"></script>
+    <script>
+        $(function(){
+            $('.dropdown').dropdown();
+        })
+    </script>
+</head>
+<body layout:fragment="content">
+    <!-- Content -->
+</body>
+</html>

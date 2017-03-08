@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="com.general.dao.entity.UserEntity" table="User" schema="ECollaborationWeb">
+        <id name="id" column="id"/>
+        <property name="github" column="github"/>
+        <property name="wechat" column="wechat"/>
+        <property name="telephone" column="telephone"/>
+        <property name="email" column="email"/>
+        <property name="emailPwd" column="email_pwd"/>
+        <property name="emailType" column="email_type"/>
+        <property name="role" column="role" update="false" insert="false"/>
+        <property name="password" column="password"/>
+        <property name="name" column="name"/>
+        <property name="gender" column="gender"/>
+
+        <many-to-one name="roleByRole" class="com.general.dao.entity.RoleEntity">
+            <column name="role"/>
+        </many-to-one>
+        <one-to-one name="studentById" class="com.general.dao.entity.StudentEntity"/>
+        <one-to-one name="tutorById" class="com.general.dao.entity.TutorEntity"/>
+        <set name="accessesById" inverse="true">
+            <key>
+                <column name="user_id"/>
+            </key>
+            <one-to-many not-found="ignore" class="com.general.dao.entity.AccessEntity"/>
+        </set>
+        <set name="mailsById" inverse="true">
+            <key>
+                <column name="sender"/>
+            </key>
+            <one-to-many not-found="ignore" class="com.general.dao.entity.MailEntity"/>
+        </set>
+        <set name="mailUsersById" inverse="true">
+            <key>
+                <column name="user"/>
+            </key>
+            <one-to-many not-found="ignore" class="com.general.dao.entity.MailUserEntity"/>
+        </set>
+        <set name="noticesById" inverse="true">
+            <key>
+                <column name="sender"/>
+            </key>
+            <one-to-many not-found="ignore" class="com.general.dao.entity.NoticeEntity"/>
+        </set>
+        <set name="noticeUsersById" inverse="true">
+            <key>
+                <column name="user"/>
+            </key>
+            <one-to-many not-found="ignore" class="com.general.dao.entity.NoticeUserEntity"/>
+        </set>
+        <set name="schedulesById" inverse="true">
+            <key>
+                <column name="creator"/>
+            </key>
+            <one-to-many not-found="ignore" class="com.general.dao.entity.ScheduleEntity"/>
+        </set>
+        <set name="scheduleUsersById" inverse="true">
+            <key>
+                <column name="user"/>
+            </key>
+            <one-to-many not-found="ignore" class="com.general.dao.entity.ScheduleUserEntity"/>
+        </set>
+    </class>
+</hibernate-mapping>

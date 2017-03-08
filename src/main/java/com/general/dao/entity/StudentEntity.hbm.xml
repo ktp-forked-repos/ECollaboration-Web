@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="com.general.dao.entity.StudentEntity" table="Student" schema="ECollaborationWeb">
+        <id name="user" column="user"/>
+        <property name="studentId" column="student_id"/>
+        <one-to-one name="userByUser" class="com.general.dao.entity.UserEntity"/>
+        <set name="projectStudentsByUser" inverse="true">
+            <key>
+                <column name="student"/>
+            </key>
+            <one-to-many not-found="ignore" class="com.general.dao.entity.ProjectStudentEntity"/>
+        </set>
+        <set name="studentMultiAnswerQuestionOptionsByUser" inverse="true">
+            <key>
+                <column name="student"/>
+            </key>
+            <one-to-many not-found="ignore" class="com.general.dao.entity.StudentMultiAnswerQuestionOptionEntity"/>
+        </set>
+        <set name="studentShortAnswerQuestionsByUser" inverse="true">
+            <key>
+                <column name="student"/>
+            </key>
+            <one-to-many not-found="ignore" class="com.general.dao.entity.StudentShortAnswerQuestionEntity"/>
+        </set>
+        <set name="studentSingleAnswerQuestionOptionsByUser" inverse="true">
+            <key>
+                <column name="student"/>
+            </key>
+            <one-to-many not-found="ignore" class="com.general.dao.entity.StudentSingleAnswerQuestionOptionEntity"/>
+        </set>
+        <set name="taskStudentsByUser" inverse="true">
+            <key>
+                <column name="student"/>
+            </key>
+            <one-to-many not-found="ignore" class="com.general.dao.entity.TaskStudentEntity"/>
+        </set>
+        <set name="teamsByUser" inverse="true">
+            <key>
+                <column name="leader"/>
+            </key>
+            <one-to-many not-found="ignore" class="com.general.dao.entity.TeamEntity"/>
+        </set>
+        <set name="teamStudentsByUser" inverse="true">
+            <key>
+                <column name="member"/>
+            </key>
+            <one-to-many not-found="ignore" class="com.general.dao.entity.TeamStudentEntity"/>
+        </set>
+    </class>
+</hibernate-mapping>

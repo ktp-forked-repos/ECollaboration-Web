@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/common/structure}"
+      style="width: 100%; overflow-x: hidden;">
+<head>
+    <title>站内信</title>
+</head>
+<body layout:fragment="content">
+<header th:replace="~{layout/tutor/header::nav(active='message')}"></header>
+
+<section class="ui container" style="margin-top: 1.5rem;">
+    <div class="ui form segment" style="padding-bottom: 4em;">
+        <div class="field">
+            <label> 收信人 </label>
+            <select name="skills" multiple="" class="ui fluid dropdown">
+                <option value=""> 收信人 </option>
+                <option value="AL"> 所有人 </option>
+                <option value="AL"> 所有队长 </option>
+                <option value="AL"> 张三 ( asdaasd@qq.com ) </option>
+                <option value="AK"> 李四 ( qweqeqw@qq.com ) </option>
+                <option value="AZ"> 王五 ( asdaaszxczxcd@qq.com ) </option>
+            </select>
+        </div>
+        <div class="field">
+            <label> 主题 </label>
+            <input type="text" placeholder="请输入主题">
+        </div>
+        <div class="field">
+            <label> 正文 </label>
+            <textarea rows="5" placeholder="请输入邮件正文"></textarea>
+        </div>
+        <button class="ui basic small blue button">
+            <i class="file icon"></i>
+            添加附件
+        </button>
+
+        <div class="ui selection divided list" style="margin-top: 1em;">
+            <div class="item">
+                <div class="right floated content">
+                    <button class="ui basic red icon mini button js-remove-file" style="padding: .4em;">
+                        <i class="remove icon"></i>
+                    </button>
+                </div>
+                <div class="content">
+                    <i class="file pdf outline icon"></i>
+                    附件1.pdf
+                </div>
+            </div>
+            <div class="item">
+                <div class="right floated content">
+                    <button class="ui basic red icon mini button js-remove-file" style="padding: .4em;">
+                        <i class="remove icon"></i>
+                    </button>
+                </div>
+                <div class="content">
+                    <i class="file pdf outline icon"></i>
+                    附件2.png
+                </div>
+            </div>
+        </div>
+
+        <div class="ui basic blue button right floated"> 确认发送 </div>
+    </div>
+</section>
+</body>
+</html>

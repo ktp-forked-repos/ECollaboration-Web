@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="com.general.dao.entity.QuestionaireEntity" table="Questionaire" schema="ECollaborationWeb">
+        <id name="id" column="id"/>
+        <property name="detail" column="detail"/>
+        <one-to-one name="projectByQuestionaire" class="com.general.dao.entity.ProjectEntity"/>
+        <set name="questionByQuestionaire" inverse="true">
+            <key>
+                <column name="questionaire"></column>
+            </key>
+            <one-to-many class="com.general.dao.entity.QuestionEntity"/>
+        </set>
+
+    </class>
+</hibernate-mapping>

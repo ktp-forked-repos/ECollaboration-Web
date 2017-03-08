@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/common/structure}"
+      style="width: 100%; overflow-x: hidden;">
+<head>
+    <title>计划管理</title>
+    <link rel="stylesheet" th:href="@{/resources/lib/css/timeline.css}">
+</head>
+<body layout:fragment="content">
+<header th:replace="~{layout/student/header::nav(active='team')}"></header>
+
+<section class="ui fluid container" style="margin-top: 1.5rem;">
+    <div class="ui grid relaxed">
+        <div class="one wide column"></div>
+
+        <!--菜单区-->
+        <div class="three wide column">
+            <aside th:replace="~{layout/student/aside::aside(active='plan')}"></aside>
+        </div>
+
+        <div class="eleven wide column">
+            <div class="timeline-content">
+                <div class="wrapper">
+                    <div class="light"><i></i></div>
+                    <hr class="line-left">
+                    <hr class="line-right">
+                    <div class="main">
+                        <div class="year">
+                            <div class="list">
+                                <ul>
+                                    <li th:each="plan, index: ${planList}" th:classappend="${plan.isFinished == true ? 'highlight' : ''}" class="cls">
+                                        <p th:text="${plan.deadline}" class="date">2016.10.10</p>
+                                        <p th:text="${index.count} + '. ' + ${plan.title}" class="intro">1. 需求分析</p>
+                                        <p class="version">&nbsp;</p>
+                                        <div class="more">
+                                            <p th:text="${plan.detail}">这里是此项计划的细节, 红色表示以及完成</p>
+                                            <p style="margin-top: 2em;">
+                                                <a class="js-detail" href="">查看详细</a>
+                                                &nbsp;/&nbsp;
+                                                <a class="js-finish" href="">计划完成</a>
+                                            </p>
+                                        </div>
+                                    </li>
+
+                                    <li th:remove="all" class="cls">
+                                        <p class="date">2016.11.10</p>
+                                        <p class="intro">2. 原型设计</p>
+                                        <p class="version">&nbsp;</p>
+                                        <div class="more">
+                                            <p>这里是此项计划的细节, 绿色表示还未完成</p>
+                                            <p style="margin-top: 2em;">
+                                                <a class="js-detail" href="">查看详细</a>
+                                                &nbsp;/&nbsp;
+                                                <a class="js-finish" href="">计划完成</a>
+                                            </p>
+                                        </div>
+                                    </li>
+
+                                    <li th:remove="all" class="cls">
+                                        <p class="date">2016.11.30</p>
+                                        <p class="intro">3. 数据库设计</p>
+                                        <p class="version">&nbsp;</p>
+                                        <div class="more">
+                                            <p>这里是此项计划的细节</p>
+                                            <p style="margin-top: 2em;">
+                                                <a class="js-detail" href="">查看详细</a>
+                                                &nbsp;/&nbsp;
+                                                <a class="js-finish" href="">计划完成</a>
+                                            </p>
+                                        </div>
+                                    </li>
+
+                                    <li th:remove="all" class="cls">
+                                        <p class="date">2016.12.10</p>
+                                        <p class="intro">4. 编码实现</p>
+                                        <p class="version">&nbsp;</p>
+                                        <div class="more">
+                                            <p>这里是此项计划的细节</p>
+                                            <p style="margin-top: 2em;">
+                                                <a class="js-detail" href="">查看详细</a>
+                                                &nbsp;/&nbsp;
+                                                <a class="js-finish" href="">计划完成</a>
+                                            </p>
+                                        </div>
+                                    </li>
+
+                                </ul>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="one wide column"></div>
+    </div>
+</section>
+
+<!--任务完成时模态框-->
+<div class="ui modal" id="js-finish-confirm">
+    <div class="header">
+        <span > 请填写必要信息 </span>
+        <div style="font-size: 0.7em; margin-top: 0.3em !important;">
+            <i class="info circle icon"></i>
+            提示：计划提交后，所有关联该计划的任务均会被提交并无法继续修改
+        </div>
+    </div>
+    <div class="content">
+        <div class="ui form">
+            <div class="two fields required">
+                <div class="field">
+                    <label> 名称 </label>
+                    <input type="text" disabled placeholder="任务名称" value="完成原型设计">
+                </div>
+                <div class="field">
+                    <label> 预期完成时间 </label>
+                    <input type="text" disabled value="2016/10/05">
+                </div>
+            </div>
+
+            <div class="field required">
+                <label> 计划描述 </label>
+                <textarea rows="5" disabled placeholder="请简述任务完成详情">请在指定时间内完成 blabla
+                    </textarea>
+            </div>
+
+            <div class="field required">
+                <label> 队长评价 </label>
+                <textarea rows="5" placeholder="请输入你对该计划完成情况的评价"></textarea>
+            </div>
+
+            <div style="margin-top: 1.5em;">
+                <button class="ui basic small blue button">
+                    <i class="file icon"></i>
+                    添加文件
+                </button>
+                <a href=""> 点击查看文件命名规范 </a>
+            </div>
+
+            <div class="ui selection divided list" style="margin-top: 1.5em;">
+                <div class="item">
+                    <div class="right floated content">
+                        <button class="ui basic red icon mini button js-download-file" style="padding: .4em;">
+                            <i class="remove icon"></i>
+                        </button>
+                    </div>
+                    <div class="content">
+                        <i class="file pdf outline icon"></i>
+                        汇报总结.pdf
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="right floated content">
+                        <button class="ui basic red icon mini button js-download-file" style="padding: .4em;">
+                            <i class="remove icon"></i>
+                        </button>
+                    </div>
+                    <div class="content">
+                        <i class="file pdf outline icon"></i>
+                        UML.pdf
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="actions">
+        <div class="ui buttons">
+            <a class="ui blue basic button"> 确认 </a>
+            <div class="ui basic red deny button"> 取消 </div>
+        </div>
+    </div>
+</div>
+
+<!--查看任务详细情况模态框-->
+<div class="ui modal" id="js-detail-confirm">
+    <div class="header">
+        <span > 计划详情 </span>
+    </div>
+    <div class="content">
+        <div class="ui form">
+            <div class="two fields required">
+                <div class="field">
+                    <label> 名称 </label>
+                    <input type="text" disabled placeholder="任务名称" value="完成原型设计">
+                </div>
+                <div class="field">
+                    <label> 预期完成时间 </label>
+                    <input type="text" disabled value="2016/10/05">
+                </div>
+            </div>
+
+            <div class="field required">
+                <label> 计划描述 </label>
+                <textarea disabled rows="5" placeholder="任务描述">完成对该 Web 项目的原型设计，已明确需求、统一任务。</textarea>
+            </div>
+
+            <div class="ui selection divided list" style="margin-top: 2em;">
+                <div class="item">
+                    <div class="right floated content">
+                        <button class="ui basic blue icon mini button js-download-file" style="padding: .4em;">
+                            <i class="download icon"></i>
+                        </button>
+                    </div>
+                    <div class="content">
+                        <i class="file pdf outline icon"></i>
+                        计划指南.pdf
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="right floated content">
+                        <button class="ui basic blue icon mini button js-download-file" style="padding: .4em;">
+                            <i class="download icon"></i>
+                        </button>
+                    </div>
+                    <div class="content">
+                        <i class="file pdf outline icon"></i>
+                        原型设计要求.pdf
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="right floated content">
+                        <button class="ui basic blue icon mini button js-download-file" style="padding: .4em;">
+                            <i class="download icon"></i>
+                        </button>
+                    </div>
+                    <div class="content">
+                        <i class="file pdf outline icon"></i>
+                        原型设计要求.pdf
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="actions">
+        <div class="ui buttons">
+            <div class="ui basic blue deny button"> 关闭 </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('.js-finish').click(function(e){
+        $('#js-finish-confirm').modal('show');
+        // 这里判断是否提交成功再确定选项按钮的状态
+        e.stopPropagation();
+        return false;
+    });
+    $('.js-detail').click(function(e){
+        $('#js-detail-confirm').modal('show');
+        e.stopPropagation();
+        return false;
+    });
+</script>
+</body>
+</html>

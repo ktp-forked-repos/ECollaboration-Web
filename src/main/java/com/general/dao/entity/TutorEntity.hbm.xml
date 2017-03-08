@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="com.general.dao.entity.TutorEntity" table="Tutor" schema="ECollaborationWeb">
+        <id name="user" column="user"/>
+        <property name="homePage" column="home_page"/>
+        <one-to-one name="userByUser" class="com.general.dao.entity.UserEntity"/>
+        <set name="projectsByUser" inverse="true">
+            <key>
+                <column name="tutor"/>
+            </key>
+            <one-to-many not-found="ignore" class="com.general.dao.entity.ProjectEntity"/>
+        </set>
+    </class>
+</hibernate-mapping>

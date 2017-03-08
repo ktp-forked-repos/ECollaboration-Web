@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/common/structure}"
+      style="width: 100%; overflow-x: hidden;">
+<head>
+    <title>队员管理</title>
+</head>
+<body layout:fragment="content">
+<header th:replace="~{layout/student/header::nav(active='team')}"></header>
+
+<section class="ui fluid container" style="margin-top: 1.5rem;">
+    <div class="ui grid relaxed">
+        <div class="one wide column"></div>
+
+        <!--菜单区-->
+        <div class="three wide column">
+            <aside th:replace="~{layout/student/aside::aside(active='member')}"></aside>
+        </div>
+
+        <div class="eleven wide column">
+            <div class="ui labeled action focus input fluid">
+                <div class="ui basic blue label normal-font-weight"> 我的确认码 </div>
+                <input th:value="${confirmCode.comfirmCode} + '（ 该验证码用于队长加入组员 ）'" type="text" disabled value="3l4121221（ 该验证码用于队长加入组员 ）">
+                <button class="ui basic blue right labeled icon button"><i class="copy icon"></i> 复制 </button>
+            </div>
+
+            <h4 class="ui blue horizontal divider header" style="margin-top: 1em;"><i class="unordered list icon"></i> 申请列表 </h4>
+
+            <table class="ui celled selectable structured small table center aligned">
+                <thead>
+                <tr>
+                    <th width="10"> 序号 </th>
+                    <th width="24%"> 姓名 </th>
+                    <th width="25%"> 学号 </th>
+                    <th width="21%"> 申请时间 </th>
+                    <th width="20%"> 操作 </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="applicant, index : ${applicantList}">
+                    <td th:text="${index.count}"> 1 </td>
+                    <td th:text="${applicant.name}"> 张三 </td>
+                    <td th:text="${applicant.studentId}"> SA1623333 </td>
+                    <td th:text="${applicant.applyTime}"> 2016.9.9 15:20 </td>
+                    <td> <button class="ui blue mini basic button js-add"> 拉入队伍 </button> </td>
+                </tr>
+
+                <tr th:remove="all">
+                    <td> 2 </td>
+                    <td> 张三 </td>
+                    <td> SA1623333 </td>
+                    <td> 2016.9.9 15:20 </td>
+                    <td> <button class="ui blue mini basic button js-add"> 拉入队伍 </button> </td>
+                </tr>
+
+                <tr th:remove="all">
+                    <td> 3 </td>
+                    <td> 张三 </td>
+                    <td> SA1623333 </td>
+                    <td> 2016.9.9 15:20 </td>
+                    <td> <button class="ui blue mini basic button js-add"> 拉入队伍 </button> </td>
+                </tr>
+                </tbody>
+            </table>
+
+            <h4 class="ui purple horizontal divider header" style="margin-top: 2em;"><i class="users icon"></i> 现有成员 </h4>
+
+            <table class="ui celled selectable structured small table center aligned">
+                <thead>
+                <tr>
+                    <th width="10"> 序号 </th>
+                    <th width="24%"> 姓名 </th>
+                    <th width="25%"> 学号 </th>
+                    <th width="21%"> 申请时间 </th>
+                    <th width="20%"> 操作 </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td> <div class="ui purple ribbon label"> 指导教师 </div> </td>
+                    <td> 张三 </td>
+                    <td> - </td>
+                    <td> 2016.9.9 15:20 </td>
+                    <td> - </td>
+                </tr>
+
+                <tr>
+                    <td> <div class="ui blue ribbon label"> 学生队长 </div> </td>
+                    <td> 张三 </td>
+                    <td> SA1623333 </td>
+                    <td> 2016.9.9 15:20 </td>
+                    <td> <button class="ui red mini button"> 解散队伍 </button> </td>
+                </tr>
+
+                <tr>
+                    <td> 2 </td>
+                    <td> 张三 </td>
+                    <td> SA1623333 </td>
+                    <td> 2016.9.9 15:20 </td>
+                    <td> <button class="ui red mini basic button"> 移出队伍 </button> </td>
+                </tr>
+                </tbody>
+            </table>
+
+            <div class="ui grid" style="margin-top: 2em;">
+                <div class="thirteen wide column"></div>
+                <div class="three wide column">
+                    <button class="ui blue button fluid">
+                        队员确认
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="one wide column"></div>
+    </div>
+</section>
+
+<div class="ui modal" id="js-add-confirm">
+    <div class="header">
+        <span > 请填写信息 </span>
+    </div>
+    <div class="content">
+        <div class="ui form">
+            <div class="two required fields disabled">
+                <div class="field">
+                    <label> 姓名 </label>
+                    <input type="text" placeholder="姓名" value="张三">
+                </div>
+                <div class="field">
+                    <label> 学号 </label>
+                    <input type="text" placeholder="学号" value="SA16233333">
+                </div>
+            </div>
+            <div class="required field">
+                <label> 确认码 </label>
+                <div class="ui left icon input fluid" style="margin-top: 1em;">
+                    <input type="text" autofocus placeholder="请输入该队员的确认码（ 联系该队员询问 ）">
+                    <i class="users icon"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="actions">
+        <div class="ui buttons">
+            <a class="ui blue basic button"> 确认 </a>
+            <div class="ui basic red deny button"> 取消 </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('.js-add').click(function(){
+        $('#js-add-confirm').modal('show');
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="com.general.dao.entity.ProjectEntity" table="Project" schema="ECollaborationWeb">
+        <id name="id" column="id"/>
+        <property name="title" column="title"/>
+        <property name="detail" column="detail"/>
+        <property name="year" column="year"/>
+        <property name="teamMax" column="team_max"/>
+        <property name="memberMax" column="member_max"/>
+        <property name="memberMin" column="member_min"/>
+        <property name="tutor" column="tutor" update="false" insert="false"/>
+        <property name="questionaire" column="questionaire"/>
+        <property name="deadline" column="deadline"/>
+        <many-to-one name="tutorByTutor" class="com.general.dao.entity.TutorEntity">
+            <column name="tutor"/>
+        </many-to-one>
+        <one-to-one name="questionaireByQuestionaire" class="com.general.dao.entity.QuestionaireEntity"/>
+        <set name="planById" inverse="true">
+            <key>
+                <column name="project"/>
+            </key>
+            <one-to-many not-found="ignore" class="com.general.dao.entity.PlanEntity"/>
+        </set>
+        <set name="projectStudentsById" inverse="true">
+            <key>
+                <column name="project"/>
+            </key>
+            <one-to-many not-found="ignore" class="com.general.dao.entity.ProjectStudentEntity"/>
+        </set>
+        <set name="teamsById" inverse="true">
+            <key>
+                <column name="project"/>
+            </key>
+            <one-to-many not-found="ignore" class="com.general.dao.entity.TeamEntity"/>
+        </set>
+    </class>
+</hibernate-mapping>

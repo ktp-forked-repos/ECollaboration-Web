@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/common/structure}"
+      style="width: 100%; overflow-x: hidden;">
+<head>
+    <title>成绩管理</title>
+</head>
+<body layout:fragment="content">
+<header th:replace="~{layout/tutor/header::nav(active='team')}"></header>
+
+<section class="ui fluid container" style="margin-top: 1.5rem;">
+    <div class="ui grid relaxed">
+        <div class="one wide column"></div>
+
+        <!--菜单区-->
+        <div class="three wide column">
+            <aside th:replace="~{layout/tutor/aside::aside(active='score')}"></aside>
+        </div>
+
+        <div class="eleven wide column">
+            <div class="ui form">
+                <div class="two fields">
+                    <div class="field">
+                        <label> 课题 </label>
+                        <select class="ui dropdown fluid">
+                            <option value="">选择课题</option>
+                            <option value="1" selected>ECollaboration Web</option>
+                            <option value="2">ECollaboration Web</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label> 队伍 </label>
+                        <select class="ui dropdown fluid">
+                            <option value="">选择队伍</option>
+                            <option value="1" selected>张三等</option>
+                            <option value="2">李四等</option>
+                            <option value="3">王五等</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <h4 class="ui horizontal divider purple header"><i class="users icon"></i> 小组得分 </h4>
+            <div class="ui form purple table fluid" style="padding: 1.5em 1.5em;">
+                <div class="ui grid">
+                    <div class="twelve wide column">
+                        <h4 style="margin-top: .6em;" class="ui horizontal divider header"> 各项得分 </h4>
+                    </div>
+                    <div class="four wide column">
+                        <button id="js-add-score" class="ui basic blue left labeled icon button fluid"><i class="add icon"></i> 增加成绩项 </button>
+                    </div>
+                </div>
+                <table id="js-score-table" class="ui celled selectable structured small table center aligned">
+                    <thead>
+                    <tr>
+                        <th widtd="10%"> 序号 </th>
+                        <th widtd="35%"> 成绩标题 </th>
+                        <th width="27%"> 成绩 </th>
+                        <th width="28%"> 权重 </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr id="js-score-template" style="display: none;">
+                        <td> 2 </td>
+                        <td> <input type="text" placeholder="如：第一次平时成绩"> </td>
+                        <td> <input type="text" placeholder="请输入百分制成绩"> </td>
+                        <td> <input type="text" placeholder="小数或百分数，范围 0~1"> </td>
+                    </tr>
+                    <tr>
+                        <td> 1 </td>
+                        <td> <input type="text" placeholder="如：第一次平时成绩"> </td>
+                        <td> <input type="text" placeholder="请输入百分制成绩"> </td>
+                        <td> <input type="text" placeholder="小数或百分数，范围 0~1"> </td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <h4 style="margin-bottom: 1.5em;" class="ui horizontal divider header"> 总成绩 </h4>
+
+                <div class="ui action input fluid">
+                    <input type="text" placeholder="可直接输入，也可点击右侧按钮依据加权自动计算">
+                    <button class="ui basic blue left labeled icon button"><i class="calculator icon"></i> 计算 </button>
+                </div>
+            </div>
+
+            <h4 class="ui horizontal divider blue header"><i class="user icon"></i> 个人得分 </h4>
+            <div class="ui form blue table fluid"  style="padding: 2em 1.5em;">
+                <h4 style="margin-bottom: 1.5em;" class="ui horizontal divider header"> 队长建议 </h4>
+                <table class="ui celled selectable structured small table center aligned">
+                    <thead>
+                    <tr>
+                        <th widtd="10%"> 序号 </th>
+                        <th width="35%"> 姓名 </th>
+                        <th width="27%"> 建议成绩 </th>
+                        <th width="28%"> 贡献度 </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="advice, index : ${adviceScore.advice}">
+                        <td> <div th:if="${index.count} == 1" class="ui blue ribbon label"> 学生队长 </div> </td>
+                        <td th:text="${advice.name}"> 张三 </td>
+                        <td th:text="${advice.score}"> 90 </td>
+                        <td th:text="${advice.contribution}"> 40% </td>
+                    </tr>
+                    <tr th:remove="all">
+                        <td> 2 </td>
+                        <td> 李四 </td>
+                        <td> 80 </td>
+                        <td> 30% </td>
+                    </tr>
+                    <tr th:remove="all">
+                        <td> 3 </td>
+                        <td> 王五 </td>
+                        <td> 85 </td>
+                        <td> 30% </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <h4 style="margin-bottom: 1.5em;" class="ui horizontal divider header"> 个人成绩 </h4>
+                <table class="ui celled selectable structured small table center aligned">
+                    <thead>
+                    <tr>
+                        <th widtd="10%"> 序号 </th>
+                        <th width="35%"> 姓名 </th>
+                        <th width="55%"> 成绩 </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td> <div class="ui blue ribbon label"> 学生队长 </div> </td>
+                        <td th:text="${scoreForStudent.leader.name}"> 张三 </td>
+                        <td> <input th:value="${scoreForStudent.leader.score}" type="text" placeholder="请输入成绩"> </td>
+                    </tr>
+                    <tr th:each="member, index : ${scoreForStudent.members}">
+                        <td th:text="${index.count}"> 2 </td>
+                        <td th:text="${member.name}"> 李四 </td>
+                        <td> <input th:value="${member.score}" type="text" placeholder="请输入成绩"> </td>
+                    </tr>
+                    <tr th:remove="all">
+                        <td> 3 </td>
+                        <td> 王五 </td>
+                        <td> <input type="text" placeholder="请输入成绩"> </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="ui grid">
+                <div class="thirteen wide column"></div>
+                <div class="three wide column">
+                    <button class="ui button blue fluid">
+                        成绩确认
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="one wide column"></div>
+    </div>
+</section>
+
+<script>
+    var scoreTemplate = $('#js-score-template').prop('outerHTML');
+    var scoreIndex = 2;
+    $('#js-add-score').click(function(){
+        $('#js-score-table').find('tbody').append(scoreTemplate)
+            .find('tr:last').show()
+            .find('td:first').text(scoreIndex++);
+    });
+</script>
+</body>
+</html>

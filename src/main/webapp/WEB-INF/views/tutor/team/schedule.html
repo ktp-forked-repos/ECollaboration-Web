@@ -1,0 +1,344 @@
+<!doctype html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/common/structure}"
+      style="width: 100%; overflow-x: hidden;">
+<head>
+    <title>日程管理</title>
+</head>
+<body layout:fragment="content">
+<header th:replace="~{layout/tutor/header::nav(active='team')}"></header>
+
+<section class="ui fluid container" style="margin-top: 1.5rem;">
+    <div class="ui grid relaxed">
+        <div class="one wide column"></div>
+
+        <!--菜单区-->
+        <div class="three wide column">
+            <aside th:replace="~{layout/tutor/aside::aside(active='schedule')}"></aside>
+        </div>
+
+        <div class="eleven wide column">
+            <div class="ui form">
+                <div class="fields">
+                    <div class="four wide field">
+                        <select class="ui dropdown fluid">
+                            <option value=""> 教学周 </option>
+                            <option value="1" selected> 第一周 </option>
+                            <option value="2"> 第二周 </option>
+                            <option value="3"> 第三周 </option>
+                            <option value="4"> 第四周 </option>
+                        </select>
+                    </div>
+                    <div class="eight wide field">
+                        <h4 style="margin-top: .4em; font-weight: normal; font-size: 1.1em" class="ui horizontal divider header"><i class="calendar icon"></i> 2016.9.12 ~ 2016.9.18 </h4>
+                    </div>
+                    <div class="four wide field">
+                        <button class="ui basic blue button fluid" id="js-add">
+                            <i class="icon add to calendar"></i> 添加日程
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <table class="ui celled selectable structured small table center aligned calendar-table">
+                <thead>
+                <tr>
+                    <th widtd="9%" >       </th>
+                    <th widtd="13%"> 00:00 ~ 08:00 </th>
+                    <th widtd="13%"> 08:00 ~ 10:00 </th>
+                    <th widtd="13%"> 10:00 ~ 12:00 </th>
+                    <th widtd="13%"> 12:00 ~ 14:00 </th>
+                    <th widtd="13%"> 14:00 ~ 16:00 </th>
+                    <th widtd="13%"> 16:00 ~ 18:00 </th>
+                    <th widtd="13%"> 18:00 - 24:00 </th>
+
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td> 星期一 <p> ( 2016.9.12 ) </td>
+                    <td>  </td>
+                    <td>  </td>
+                    <td>  </td>
+                    <td>  </td>
+                    <td>  </td>
+                    <td>  </td>
+                    <td>  </td>
+                </tr>
+
+                <tr>
+                    <td> 星期二 <p> ( 2016.9.13 ) </td>
+                    <td>  </td>
+                    <td>  </td>
+                    <td>  </td>
+                    <td>  </td>
+                    <td>  </td>
+                    <td>  </td>
+                    <td>  </td>
+                </tr>
+
+                <tr>
+                    <td> 星期三 <p> ( 2016.9.14 ) </td>
+                    <td>  </td>
+                    <td> <a class="ui basic pink label js-delete-detail" style="position: absolute; width: 12%; margin-top: -1em;"> 这段日程很长... </a> </td>
+                    <td>  </td>
+                    <td>  </td>
+                    <td>  </td>
+                    <td>  </td>
+                    <td>  </td>
+                </tr>
+
+                <tr>
+                    <td> 星期四 <p> ( 2016.9.15 ) </td>
+                    <td>  </td>
+                    <td>  </td>
+                    <td>  </td>
+                    <td>  </td>
+                    <td>  </td>
+                    <td>  </td>
+                    <td>  </td>
+                </tr>
+
+                <tr>
+                    <td> 星期五 <p> ( 2016.9.16 ) </td>
+                    <td>  </td>
+                    <td>  </td>
+                    <td>  </td>
+                    <td>  </td>
+                    <td>  </td>
+                    <td>  </td>
+                    <td>  </td>
+                </tr>
+
+                <tr>
+                    <td> 星期六 <p> ( 2016.9.17 ) </td>
+                    <td>  </td>
+                    <td>  </td>
+                    <td>  </td>
+                    <td> <a class="ui basic purple label js-detail" style="position: absolute; width: 12%; margin-top: -1em;"> 小组集合开会 </a> </td>
+                    <td>  </td>
+                    <td>  </td>
+                    <td>  </td>
+                </tr>
+
+                <tr>
+                    <td> 星期日 <p> ( 2016.9.18 ) </td>
+                    <td>  </td>
+                    <td>  </td>
+                    <td>  </td>
+                    <td>  </td>
+                    <td>  </td>
+                    <td>  </td>
+                    <td>  </td>
+                </tr>
+
+                </tbody>
+            </table>
+        </div>
+
+        <div class="one wide column"></div>
+    </div>
+</section>
+
+<!--查看日程详细情况模态框-->
+<div class="ui modal" id="js-detail-confirm">
+    <div class="header">
+        <span > 日程详情 </span>
+    </div>
+    <div class="content">
+        <div class="ui form">
+            <div class="two fields required">
+                <div class="field">
+                    <label> 名称 </label>
+                    <input type="text" placeholder="日程名称" value="每周四例会" disabled>
+                </div>
+                <div class="field required">
+                    <label> 参与者 </label>
+                    <div style="margin-top: .8em;">
+                        <a class="ui label"> 张三 </a>
+                        <a class="ui label"> 李四 </a>
+                        <a class="ui label"> 朱洪军( 导师 ) </a>
+                    </div>
+                </div>
+            </div>
+            <div class="two fields required">
+                <div class="field">
+                    <label> 开始时间 </label>
+                    <input type="text" placeholder="日程开始时间" disabled value="2016/10/04 14:30">
+                </div>
+                <div class="field">
+                    <label> 重复 </label>
+                    <select class="ui dropdown" disabled>
+                        <option value=""> 重复频率 </option>
+                        <option value="1"> 仅一次 </option>
+                        <option value="2"> 每周 </option>
+                        <option value="3" selected> 每两周 </option>
+                        <option value="4"> 每月 </option>
+                    </select>
+                </div>
+            </div>
+            <div class="two fields required">
+                <div class="field">
+                    <label> 创建者所属项目 </label>
+                    <input type="text" placeholder="创建者所属项目" disabled value="ECollaboration Web">
+                </div>
+                <div class="field">
+                    <label> 创建者 </label>
+                    <input type="text" placeholder="创建者" disabled value="张三( 队长 )">
+                </div>
+            </div>
+
+            <div class="field required">
+                <label> 日程描述 </label>
+                <textarea rows="5" placeholder="请添加日程描述" disabled>一起聊聊天</textarea>
+            </div>
+        </div>
+    </div>
+    <div class="actions">
+        <div class="ui buttons">
+            <div class="ui basic blue deny button"> 关闭 </div>
+        </div>
+    </div>
+</div>
+
+<!--细节可删除-->
+<div class="ui modal" id="js-delete-detail-confirm">
+    <div class="header">
+        <span > 日程详情 </span>
+    </div>
+    <div class="content">
+        <div class="ui form">
+            <div class="two fields required">
+                <div class="field">
+                    <label> 名称 </label>
+                    <input type="text" placeholder="日程名称" value="例会">
+                </div>
+                <div class="field required">
+                    <label> 参与者 </label>
+                    <select multiple="" class="ui fluid dropdown">
+                        <option value=""> 日程所属 </option>
+                        <option value="AL"> 张三所在小组 </option>
+                        <option value="AK" selected> 李四所在小组 </option>
+                        <option value="AZ"> 王五所在小组 </option>
+                        <option value="AZ" selected> 所有组长 </option>
+                        <option value="AZ"> 所有人 </option>
+                    </select>
+                </div>
+            </div>
+            <div class="two fields required">
+                <div class="field">
+                    <label> 开始时间 </label>
+                    <input type="text" placeholder="日程开始时间" value="2016/10/04 14:30">
+                </div>
+                <div class="field">
+                    <label> 重复 </label>
+                    <select class="ui dropdown">
+                        <option value=""> 重复频率 </option>
+                        <option value="1"> 仅一次 </option>
+                        <option value="2" selected> 每周 </option>
+                        <option value="3"> 每两周 </option>
+                        <option value="4"> 每月 </option>
+                    </select>
+                </div>
+            </div>
+            <div class="two fields required">
+                <div class="field">
+                    <label> 创建者所属项目 </label>
+                    <input type="text" disabled placeholder="创建者所属项目" value="-">
+                </div>
+                <div class="field">
+                    <label> 创建者 </label>
+                    <input type="text" disabled placeholder="创建者"  value="朱洪军( 导师 )">
+                </div>
+            </div>
+
+            <div class="field required">
+                <label> 日程描述 </label>
+                <textarea rows="5" placeholder="请添加日程描述">一起聊聊天</textarea>
+            </div>
+        </div>
+    </div>
+    <div class="actions">
+        <div class="ui red button left floated"> 删除日程 </div>
+        <div class="ui buttons">
+            <div class="ui basic blue button"> 保存 </div>
+            <div class="ui basic red deny button"> 取消 </div>
+        </div>
+    </div>
+</div>
+
+<!--添加日程模态框-->
+<div class="ui modal" id="js-add-confirm">
+    <div class="header">
+        <span > 请填写必要信息 </span>
+    </div>
+    <div class="content">
+        <div class="ui form">
+            <div class="two fields required">
+                <div class="field">
+                    <label> 名称 </label>
+                    <input type="text" placeholder="日程名称">
+                </div>
+                <div class="field required">
+                    <label> 参与者 </label>
+                    <select multiple="" class="ui fluid dropdown">
+                        <option value=""> 日程所属 </option>
+                        <option value="AL"> 张三所在小组 </option>
+                        <option value="AK"> 李四所在小组 </option>
+                        <option value="AZ"> 王五所在小组 </option>
+                        <option value="AZ"> 所有组长 </option>
+                        <option value="AZ"> 所有人 </option>
+                    </select>
+                </div>
+            </div>
+            <div class="two fields required">
+                <div class="field">
+                    <label> 开始时间 </label>
+                    <input type="text" placeholder="日程开始时间">
+                </div>
+                <div class="field">
+                    <label> 重复 </label>
+                    <select class="ui dropdown">
+                        <option value=""> 重复频率 </option>
+                        <option value="1"> 仅一次 </option>
+                        <option value="2"> 每周 </option>
+                        <option value="3"> 每两周 </option>
+                        <option value="4"> 每月 </option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="field required">
+                <label> 日程描述 </label>
+                <textarea rows="5" placeholder="请添加日程描述"></textarea>
+            </div>
+        </div>
+    </div>
+    <div class="actions">
+        <div class="ui buttons">
+            <a class="ui blue basic button"> 确认 </a>
+            <div class="ui basic red deny button"> 取消 </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('#js-add').click(function(){
+        $('#js-add-confirm').modal('show');
+    });
+    $('.js-detail').click(function(){
+        $('#js-detail-confirm').modal('show');
+
+    });
+    $('.js-delete-detail').click(function(){
+        $('#js-delete-detail-confirm').modal('show');
+
+    });
+    $('.js-remove-task').click(function(e){
+        alert('remove');
+        e.stopPropagation();
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<header th:fragment="nav(active)" class="ui segment attached tiny inverted borderless" style="z-index: 999;">
+    <div class="ui secondary inverted menu">
+        <div class="ui container">
+
+            <a class="item"> 咱的Logo </a>
+            <a th:classappend="${active} == 'index' ? 'active' : ''" class="item" th:href="@{/student}"> 首页 </a>
+            <a th:classappend="${active} == 'project' ? 'active' : ''" class="item" th:href="@{/student/project}"> 选题 </a>
+            <a th:classappend="${active} == 'team' ? 'active' : ''" class="item" th:href="@{/student/team/project}"> 我的小组 </a>
+
+
+            <div class="right menu">
+                <div class="ui dropdown item"> 个人中心 <i class="dropdown icon"></i>
+                    <div class="menu">
+                        <a class="item" th:href="@{/student/message}"> 站内信 &nbsp;&nbsp; <div class="ui small label">5</div> </a>
+                        <a class="item" th:href="@{/student/profile}"> 基本信息 </a>
+                        <a class="item" th:href="@{/student/score}"> 我的成绩 </a>
+                    </div>
+                </div>
+                <a th:href="@{/logout}" class="item"> 退出 </a>
+            </div>
+        </div>
+    </div>
+</header>
+</body>
+</html>

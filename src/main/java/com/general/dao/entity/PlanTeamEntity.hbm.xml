@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="com.general.dao.entity.PlanTeamEntity" table="Plan__Team" schema="ECollaborationWeb">
+        <id name="id" column="id"/>
+        <property name="team" column="team" insert="false" update="false"/>
+        <property name="plan" column="plan" insert="false" update="false"/>
+        <property name="submitAt" column="submit_at"/>
+        <many-to-one name="teamByTeam" class="com.general.dao.entity.TeamEntity">
+            <column name="team"/>
+        </many-to-one>
+        <many-to-one name="planByPlan" class="com.general.dao.entity.PlanEntity">
+            <column name="plan"/>
+        </many-to-one>
+        <set name="planStudentFilesById" inverse="true">
+            <key>
+                <column name="plan_team"/>
+            </key>
+            <one-to-many not-found="ignore" class="com.general.dao.entity.PlanStudentFileEntity"/>
+        </set>
+    </class>
+</hibernate-mapping>
