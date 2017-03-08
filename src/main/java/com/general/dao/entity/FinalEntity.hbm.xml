@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="com.general.dao.entity.FinalEntity" table="Final" schema="ECollaborationWeb">
+        <id name="team" column="team"/>
+        <property name="submitAt" column="submit_at"/>
+        <property name="description" column="description"/>
+        <one-to-one name="teamByTeam" class="com.general.dao.entity.TeamEntity"/>
+    </class>
+</hibernate-mapping>

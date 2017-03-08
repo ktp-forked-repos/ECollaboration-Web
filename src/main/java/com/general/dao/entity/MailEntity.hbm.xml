@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="com.general.dao.entity.MailEntity" table="Mail" schema="ECollaborationWeb">
+        <id name="id" column="id"/>
+        <property name="title" column="title"/>
+        <property name="content" column="content"/>
+        <property name="sendAt" column="send_at"/>
+        <property name="isReceived" column="is_received"/>
+        <property name="sender" column="sender" insert="false" update="false"/>
+        <many-to-one name="userBySender" class="com.general.dao.entity.UserEntity">
+            <column name="sender"/>
+        </many-to-one>
+        <set name="mailFilesById" inverse="true">
+            <key>
+                <column name="mail"/>
+            </key>
+            <one-to-many not-found="ignore" class="com.general.dao.entity.MailFileEntity"/>
+        </set>
+        <set name="mailUsersById" inverse="true">
+            <key>
+                <column name="mail"/>
+            </key>
+            <one-to-many not-found="ignore" class="com.general.dao.entity.MailUserEntity"/>
+        </set>
+    </class>
+</hibernate-mapping>

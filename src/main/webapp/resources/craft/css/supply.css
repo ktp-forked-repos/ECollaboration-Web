@@ -1,0 +1,90 @@
+.small-padding{
+    padding-left: 7px !important;
+    padding-right: 7px !important;
+}
+.ui.list{
+    font-size:.8em;
+}
+.red.text{
+    color: #DB2828;
+}
+.pink.text{
+    color: #E03997;
+}
+.first-pic-row{
+    margin-top: 10px;
+}
+.first-pic-after, .first-pic-after .column{
+    padding-top: 0px !important;
+}
+.ui.segment .meta{
+    font-size: 1em;
+    color: rgba(0,0,0,.4);
+    margin-bottom: 15px;
+}
+.note-billboard .ui.segment{
+    padding-bottom: 30px;
+}
+.header.text{
+    font-size: 1.15em !important;
+}
+.full-width{
+    width: 100% !important;
+}
+.no-radius-form input, textarea{
+    border-radius : 0px !important;
+}
+.no-radius{
+    border-radius : 0px !important;
+}
+.no-box-shadow{
+    -webkit-box-shadow: none !important;
+    -moz-box-shadow: none !important;
+    box-shadow: none; !important;
+}
+.normal-segment{
+    .no-radius, .no-box-shadow;
+}
+.borderless{
+    border-width: 0 !important;
+}
+
+.normal-font-weight{
+    font-weight : normal !important;
+}
+
+.calendar-table td{
+    height: 6em;
+}
+
+.calendar-table .ui.label{
+    margin: 0;
+}
+
+.calendar-table tr .ui.label:nth-child(n+2){
+    margin-top: .2em;
+}
+
+.calendar-table tr td:first-child{
+    width: 12.5%;
+}
+
+.calendar-table tr td:nth-child(n+2){
+    width: 12.5%;
+}
+
+textarea{
+    border-radius: 0.285714rem !important;
+}
+
+.questionnaire .content label:first-child{
+    font-size: 1.3em; color: rgb(0,0,0);
+}
+
+/*.calendar-table tbody tr td:first-child{*/
+    /*width: 9%;*/
+/*}*/
+
+/*.calendar-table tbody tr td:nth-child(n+1){*/
+    /*width: 13%;*/
+/*}*/

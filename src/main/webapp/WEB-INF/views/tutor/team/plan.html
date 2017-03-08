@@ -1,0 +1,321 @@
+<!doctype html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/common/structure}"
+      style="width: 100%; overflow-x: hidden;">
+<head>
+    <title>计划管理</title>
+    <link rel="stylesheet" th:href="@{/resources/lib/css/timeline.css}">
+</head>
+<body layout:fragment="content">
+<header th:replace="~{layout/tutor/header::nav(active='team')}"></header>
+
+<section class="ui fluid container" style="margin-top: 1.5rem;">
+    <div class="ui grid relaxed">
+        <div class="one wide column"></div>
+
+        <!--菜单区-->
+        <div class="three wide column">
+            <aside th:replace="~{layout/tutor/aside::aside(active='plan')}"></aside>
+        </div>
+
+        <div class="eleven wide column">
+            <div id="js-select-project-panel">
+                <table class="ui celled selectable structured small table center aligned">
+                    <thead>
+                    <tr>
+                        <th widtd="10"> 序号 </th>
+                        <th width="75%"> 题目 </th>
+                        <th width="15%"> 操作 </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="article, index : ${articleList}">
+                        <td th:text="${index.count}"> 1 </td>
+                        <td th:text="${article.title}"> 项目管理团队合作 ECollaboration Web 开发 </td>
+                        <td> <button class="ui blue mini basic button js-select-project"> 选择 </button> </td>
+                    </tr>
+
+                    <tr th:remove="all">
+                        <td> 2 </td>
+                        <td> 项目管理团队合作 ECollaboration App 开发 </td>
+                        <td> <button class="ui blue mini basic button js-select-project"> 选择 </button> </td>
+                    </tr>
+
+                    <tr th:remove="all">
+                        <td> 3 </td>
+                        <td> Cloud Print 开发 </td>
+                        <td> <button class="ui blue mini basic button js-select-project"> 选择 </button> </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="js-project-detail-panel" style="display: none;">
+                <div class="ui form">
+                    <div class="three fields">
+                        <div class="field">
+                            <label> 课题 </label>
+                            <select class="ui dropdown fluid">
+                                <option value="">选择课题</option>
+                                <option value="1" selected>ECollaboration Web</option>
+                                <option value="2">ECollaboration Web</option>
+                            </select>
+                        </div>
+                        <div class="field">
+                            <label> 队伍 </label>
+                            <select class="ui dropdown fluid">
+                                <option value="">选择队伍</option>
+                                <option value="1" selected>张三等</option>
+                                <option value="2">李四等</option>
+                                <option value="3">王五等</option>
+                            </select>
+                        </div>
+                        <div class="field">
+                            <label> &nbsp; </label>
+                            <button class="ui basic blue button fluid" id="js-add">
+                                <i class="icon add to calendar"></i> 添加计划
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-content">
+                    <div class="wrapper">
+                        <div class="light"><i></i></div>
+                        <hr class="line-left">
+                        <hr class="line-right">
+                        <div class="main">
+                            <div class="year">
+                                <div class="list">
+                                    <ul>
+                                        <li class="cls highlight">
+                                            <p class="date">2016.10.10</p>
+                                            <p class="intro">1. 需求分析</p>
+                                            <p class="version">&nbsp;</p>
+                                            <div class="more">
+                                                <p>这里是此项计划的细节, 红色表示以及完成</p>
+                                                <p style="margin-top: 2em;">
+                                                    <a class="js-detail" href="">编辑</a>
+                                                    &nbsp;/&nbsp;
+                                                    <a class="js-delete" href="">删除</a>
+                                                </p>
+                                            </div>
+                                        </li>
+
+                                        <li class="cls">
+                                            <p class="date">2016.11.10</p>
+                                            <p class="intro">2. 原型设计</p>
+                                            <p class="version">&nbsp;</p>
+                                            <div class="more">
+                                                <p>这里是此项计划的细节, 绿色表示还未完成</p>
+                                                <p style="margin-top: 2em;">
+                                                    <a class="js-detail" href="">编辑</a>
+                                                    &nbsp;/&nbsp;
+                                                    <a class="js-delete" href="">删除</a>
+                                                </p>
+                                            </div>
+                                        </li>
+
+                                        <li class="cls">
+                                            <p class="date">2016.11.30</p>
+                                            <p class="intro">3. 数据库设计</p>
+                                            <p class="version">&nbsp;</p>
+                                            <div class="more">
+                                                <p>这里是此项计划的细节</p>
+                                                <p style="margin-top: 2em;">
+                                                    <a class="js-detail" href="">编辑</a>
+                                                    &nbsp;/&nbsp;
+                                                    <a class="js-delete" href="">删除</a>
+                                                </p>
+                                            </div>
+                                        </li>
+
+                                        <li class="cls">
+                                            <p class="date">2016.12.10</p>
+                                            <p class="intro">4. 编码实现</p>
+                                            <p class="version">&nbsp;</p>
+                                            <div class="more">
+                                                <p>这里是此项计划的细节</p>
+                                                <p style="margin-top: 2em;">
+                                                    <a class="js-detail" href="">编辑</a>
+                                                    &nbsp;/&nbsp;
+                                                    <a class="js-delete" href="">删除</a>
+                                                </p>
+                                            </div>
+                                        </li>
+
+                                    </ul>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="one wide column"></div>
+    </div>
+</section>
+
+<!--任务完成时模态框-->
+<div class="ui modal" id="js-add-confirm">
+    <div class="header">
+        <span > 请填写必要信息 </span>
+    </div>
+    <div class="content">
+        <div class="ui form">
+            <div class="two fields required">
+                <div class="field">
+                    <label> 名称 </label>
+                    <input type="text" placeholder="任务名称">
+                </div>
+                <div class="field">
+                    <label> 预期完成时间 </label>
+                    <input type="text" placeholder="设定预定完成时间">
+                </div>
+            </div>
+
+            <div class="field required">
+                <label> 计划描述 </label>
+                <textarea rows="5" placeholder="任务描述"></textarea>
+            </div>
+
+            <div style="margin-top: 1.5em;">
+                <button class="ui basic small blue button">
+                    <i class="file icon"></i>
+                    添加文件
+                </button>
+                <a href=""> 点击查看文件命名规范 </a>
+            </div>
+
+            <div class="ui selection divided list" style="margin-top: 1.5em;">
+                <div class="item">
+                    <div class="right floated content">
+                        <button class="ui basic red icon mini button js-download-file" style="padding: .4em;">
+                            <i class="remove icon"></i>
+                        </button>
+                    </div>
+                    <div class="content">
+                        <i class="file pdf outline icon"></i>
+                        计划指南.pdf
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="right floated content">
+                        <button class="ui basic red icon mini button js-download-file" style="padding: .4em;">
+                            <i class="remove icon"></i>
+                        </button>
+                    </div>
+                    <div class="content">
+                        <i class="file pdf outline icon"></i>
+                        原型设计要求.pdf
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="actions">
+        <div class="ui buttons">
+            <a class="ui blue basic button"> 确认 </a>
+            <div class="ui basic red deny button"> 关闭 </div>
+        </div>
+    </div>
+</div>
+
+<!--查看任务详细情况模态框-->
+<div class="ui modal" id="js-detail-confirm">
+    <div class="header">
+        <span > 修改信息 </span>
+    </div>
+    <div class="content">
+        <div class="ui form">
+            <div class="two fields required">
+                <div class="field">
+                    <label> 名称 </label>
+                    <input type="text" placeholder="任务名称" value="完成原型设计">
+                </div>
+                <div class="field">
+                    <label> 预期完成时间 </label>
+                    <input type="text" value="2016/10/05">
+                </div>
+            </div>
+
+            <div class="field required">
+                <label> 计划描述 </label>
+                <textarea rows="5" placeholder="任务描述">完成对该 Web 项目的原型设计，已明确需求、统一任务。</textarea>
+            </div>
+
+            <div style="margin-top: 1.5em;">
+                <button class="ui basic small blue button">
+                    <i class="file icon"></i>
+                    添加文件
+                </button>
+                <a href=""> 点击查看文件命名规范 </a>
+            </div>
+
+            <div class="ui selection divided list" style="margin-top: 1.5em;">
+                <div class="item">
+                    <div class="right floated content">
+                        <button class="ui basic red icon mini button js-download-file" style="padding: .4em;">
+                            <i class="remove icon"></i>
+                        </button>
+                    </div>
+                    <div class="content">
+                        <i class="file pdf outline icon"></i>
+                        计划指南.pdf
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="right floated content">
+                        <button class="ui basic red icon mini button js-download-file" style="padding: .4em;">
+                            <i class="remove icon"></i>
+                        </button>
+                    </div>
+                    <div class="content">
+                        <i class="file pdf outline icon"></i>
+                        原型设计要求.pdf
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="right floated content">
+                        <button class="ui basic red icon mini button js-download-file" style="padding: .4em;">
+                            <i class="remove icon"></i>
+                        </button>
+                    </div>
+                    <div class="content">
+                        <i class="file pdf outline icon"></i>
+                        原型设计要求.pdf
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="actions">
+        <div class="ui buttons">
+            <a class="ui blue basic button"> 确认 </a>
+            <div class="ui basic red deny button"> 取消 </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('#js-add').click(function(e){
+        $('#js-add-confirm').modal('show');
+        return false;
+        // 这里判断是否提交成功再确定选项按钮的状态
+        e.stopPropagation();
+    });
+    $('.js-detail').click(function(e){
+        $('#js-detail-confirm').modal('show');
+        e.stopPropagation();
+        return false;
+    });
+    $('.js-select-project').click(function(e){
+        $('#js-select-project-panel').hide();
+        $('#js-project-detail-panel').show();
+    });
+</script>
+</body>
+</html>

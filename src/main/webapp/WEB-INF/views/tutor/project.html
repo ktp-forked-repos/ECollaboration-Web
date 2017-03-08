@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/common/structure}"
+      style="width: 100%; overflow-x: hidden;">
+<head>
+    <title>课题管理</title>
+</head>
+<body layout:fragment="content">
+<header th:replace="~{layout/tutor/header::nav(active='project')}"></header>
+
+<section class="ui container" style="margin-top: 1.5rem;">
+    <div class="ui grid">
+        <div class="eight wide column"></div>
+        <div class="four wide column">
+            <select class="ui dropdown fluid">
+                <option value=""> 年份 </option>
+                <option value="0" selected> 全部 </option>
+                <option value="1"> 2016 </option>
+                <option value="2"> 2015 </option>
+                <option value="3"> 2014 </option>
+                <option value="4"> 2013 </option>
+            </select>
+        </div>
+        <div class="four wide column">
+            <button class="ui button basic blue fluid js-add">
+                添加课程
+            </button>
+        </div>
+    </div>
+
+    <table class="ui celled selectable structured small table center aligned">
+        <thead>
+        <tr>
+            <th widtd="10"> 序号 </th>
+            <th width="40%"> 题目 </th>
+            <th width="13%"> 队数限制 </th>
+            <th width="13%"> 每队人数限制 </th>
+            <th width="12%"> 截止时间 </th>
+            <th width="12%"> 操作 </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="article, index : ${articleList}">
+            <td th:text="${index.count}"> 1 </td>
+            <td th:text="${article.title}"> 项目管理团队合作 ECollaboration Web 开发 </td>
+            <td th:text="${article.maxTeamNum}"> 2 </td>
+            <td th:text="${article.minMember} + ' ~ ' + ${article.maxMember}"> 3 ～ 4 </td>
+            <td th:text="${article.deadline}"> 2016.9.9 </td>
+            <td> <button th:disabled="!${article.canEdit}" class="ui blue mini basic button js-edit"> 编辑 </button> </td>
+        </tr>
+
+        <tr th:remove="all">
+            <td> 2 </td>
+            <td> 团队合作 ECollaboration App 开发 </td>
+            <td> 2 </td>
+            <td> 3 ～ 4 </td>
+            <td> 2016.9.9 </td>
+            <td> <button class="ui blue mini basic button js-edit"> 编辑 </button> </td>
+        </tr>
+
+        <tr th:remove="all">
+            <td> 3 </td>
+            <td> 团队合作 ECollaboration App 开发 </td>
+            <td> 1 </td>
+            <td> 2 ～ 3 </td>
+            <td> 2016.9.9 </td>
+            <td> <button class="ui blue mini basic button disabled js-edit"> 编辑 </button> </td>
+        </tr>
+        </tbody>
+    </table>
+</section>
+
+<div class="ui modal js-add-confirm">
+    <div class="header">
+        <span > 请填写必要信息 </span>
+    </div>
+    <div class="content">
+        <div class="ui form">
+            <div class="two fields required">
+                <div class="field">
+                    <label> 名称 </label>
+                    <input type="text" placeholder="请输入课题名称">
+                </div>
+                <div class="field">
+                    <label> 截止时间 </label>
+                    <input type="text" placeholder="请输入截止时间">
+                </div>
+            </div>
+            <div class="field required">
+                <label> 课题描述 </label>
+                <textarea rows="5" placeholder="请简述任务完成详情"></textarea>
+            </div>
+            <div class="three fields required">
+                <div class="field">
+                    <label> 队数 </label>
+                    <input type="text" placeholder="课题限制队数">
+                </div>
+                <div class="field">
+                    <label> 最大人数 </label>
+                    <input type="text" placeholder="每队最大人数">
+                </div>
+                <div class="field">
+                    <label> 最小人数 </label>
+                    <input type="text" placeholder="每对最小人数">
+                </div>
+            </div>
+        </div>
+
+        <div style="margin-top: 1.5em;">
+            <button class="ui basic small blue button">
+                <i class="file icon"></i>
+                添加文件
+            </button>
+            <a href=""> 点击查看文件命名规范 </a>
+        </div>
+
+        <div class="ui selection divided list" style="margin-top: 1.5em;">
+            <div class="item">
+                <div class="right floated content">
+                    <button class="ui red icon mini button js-download-file" style="padding: .4em;">
+                        <i class="remove icon"></i>
+                    </button>
+                </div>
+                <div class="content">
+                    <i class="file pdf outline icon"></i>
+                    计划指南.pdf
+                </div>
+            </div>
+            <div class="item">
+                <div class="right floated content">
+                    <button class="ui red icon mini button js-download-file" style="padding: .4em;">
+                        <i class="remove icon"></i>
+                    </button>
+                </div>
+                <div class="content">
+                    <i class="file pdf outline icon"></i>
+                    原型设计要求.pdf
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="actions">
+        <div class="ui buttons">
+            <a class="ui blue basic button"> 确认 </a>
+            <div class="ui basic red deny button"> 取消 </div>
+        </div>
+    </div>
+</div>
+
+<div class="ui modal js-edit-confirm">
+    <div class="header">
+        <span > 修改信息 </span>
+    </div>
+    <div class="content">
+        <div class="ui form">
+            <div class="two fields required">
+                <div class="field">
+                    <label> 名称 </label>
+                    <input type="text" placeholder="请输入课题名称" value="ECollaboration Web 开发">
+                </div>
+                <div class="field">
+                    <label> 截止时间 </label>
+                    <input type="text" placeholder="" value="2016/09/09">
+                </div>
+            </div>
+            <div class="field required">
+                <label> 课题描述 </label>
+                <textarea rows="5" placeholder="请简述任务完成详情">请在指定时间内完成 blabla
+                    </textarea>
+            </div>
+            <div class="three fields required">
+                <div class="field">
+                    <label> 队数 </label>
+                    <input type="text" placeholder="课题限制队数" value="2">
+                </div>
+                <div class="field">
+                    <label> 最大人数 </label>
+                    <input type="text" placeholder="每队最大人数" value="2">
+                </div>
+                <div class="field">
+                    <label> 最小人数 </label>
+                    <input type="text" placeholder="每对最小人数" value="4">
+                </div>
+            </div>
+        </div>
+        <div style="margin-top: 1.5em;">
+            <button class="ui basic small blue button">
+                <i class="file icon"></i>
+                添加文件
+            </button>
+            <a href=""> 点击查看文件命名规范 </a>
+        </div>
+
+        <div class="ui selection divided list" style="margin-top: 1.5em;">
+            <div class="item">
+                <div class="right floated content">
+                    <button class="ui red basic icon mini button js-download-file" style="padding: .4em;">
+                        <i class="remove icon"></i>
+                    </button>
+                </div>
+                <div class="content">
+                    <i class="file pdf outline icon"></i>
+                    计划指南.pdf
+                </div>
+            </div>
+            <div class="item">
+                <div class="right floated content">
+                    <button class="ui red basic icon mini button js-download-file" style="padding: .4em;">
+                        <i class="remove icon"></i>
+                    </button>
+                </div>
+                <div class="content">
+                    <i class="file pdf outline icon"></i>
+                    课题介绍.pdf
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="actions">
+        <div class="ui buttons">
+            <a class="ui blue basic button"> 保存 </a>
+            <div class="ui basic red deny button"> 取消 </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('.js-edit').click(function(){
+        $('.js-edit-confirm').modal('show');
+    });
+
+    $('.js-add').click(function(){
+        $('.js-add-confirm').modal('show');
+    });
+</script>
+</body>
+</html>

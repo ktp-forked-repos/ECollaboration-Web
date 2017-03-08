@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="com.general.dao.entity.FileEntity" table="File" schema="ECollaborationWeb">
+        <id name="id" column="id"/>
+        <property name="realName" column="real_name"/>
+        <property name="restoreAt" column="restore_at"/>
+        <one-to-one name="mailFileById" class="com.general.dao.entity.MailFileEntity"/>
+        <one-to-one name="planStudentFileById" class="com.general.dao.entity.PlanStudentFileEntity"/>
+        <one-to-one name="planTeacherFileById" class="com.general.dao.entity.PlanTeacherFileEntity"/>
+        <one-to-one name="taskFileById" class="com.general.dao.entity.TaskFileEntity"/>
+        <one-to-one name="finalFileByFile" class="com.general.dao.entity.FinalFileEntity"/>
+    </class>
+</hibernate-mapping>

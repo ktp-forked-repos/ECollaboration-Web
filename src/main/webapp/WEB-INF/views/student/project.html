@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/common/structure}"
+      style="width: 100%; overflow-x: hidden;">
+<head>
+    <title>选题</title>
+</head>
+<body layout:fragment="content">
+    <header th:replace="~{layout/student/header::nav(active='project')}"></header>
+
+    <section class="ui container" style="margin-top: 1.5rem;">
+        <div class="ui action input fluid">
+            <input class="no-radius" type="text" placeholder="搜索课题名称/导师名称">
+            <button class="ui basic primary left labeled icon button no-radius"><i class="search icon"></i> 搜索 </button>
+        </div>
+
+        <table class="ui celled selectable structured small table center aligned">
+            <thead>
+            <tr>
+                <th widtd="6"> 序号 </th>
+                <th width="40%"> 题目 </th>
+                <th width="9%"> 导师 </th>
+                <th width="8%"> 队数限制 </th>
+                <th width="8%"> 每队人数 </th>
+                <th width="8%"> 已申请 / 队 </th>
+                <th width="8%"> 可申请 </th>
+                <th width="13%"> 操作 </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="article, index : ${articleList}" th:classappend="${article.canApply == false ? 'negative':''}">
+                <td th:text="${index.count}"> 1 </td>
+                <td th:text="${article.title}"> 项目管理团队合作 ECollaboration Web 开发 </td>
+                <td th:text="${article.tutorName}"> 朱洪军 </td>
+                <td th:text="${article.maxTeamNum}"> 2 </td>
+                <td th:text="${article.minMemberNum} + '~' + ${article.maxMemberNum}"> 3 ～ 4 </td>
+                <td th:text="${article.applyNum}"> 2 </td>
+                <td> <i th:classappend="${article.canApply == true ? 'green checkmark' : 'red close'}" class=" icon"></i> </td>
+                <td> <button th:classappend="${article.canApply == true ? '' : 'disabled'}" class="ui blue mini basic button js-apply"> 申请 </button> </td>
+            </tr>
+
+            <tr class="negative" th:remove="all">
+                <td> 2 </td>
+                <td> 团队合作 ECollaboration App 开发  </td>
+                <td> 朱洪军 </td>
+                <td> 2 </td>
+                <td> 3 ～ 4 </td>
+                <td> 2 </td>
+                <td> <i class="red icon close"></i>  </td>
+                <td> <button class="ui blue mini basic button disabled js-apply"> 申请 </button> </td>
+            </tr>
+
+            <tr class="negative" th:remove="all">
+                <td> 3 </td>
+                <td> 团队合作 ECollaboration App 开发  </td>
+                <td> 朱洪军 </td>
+                <td> 2 </td>
+                <td> 3 ～ 4 </td>
+                <td> 2 </td>
+                <td> <i class="red icon close"></i>  </td>
+                <td> <button class="ui blue mini basic button disabled js-apply"> 申请 </button> </td>
+            </tr>
+
+            </tbody>
+        </table>
+    </section>
+
+    <div class="ui modal js-apply-confirm">
+        <div class="header">
+            <span > 提示 </span>
+        </div>
+        <div class="content">
+            <div>当前已有 2 队申请，同时参与该课题的上限为 2 队，确认申请？</div>
+            <div class="ui slider checkbox" style="margin-top: 2em;">
+                <input type="checkbox" name="public">
+                <label> 成为队长 </label>
+            </div>
+        </div>
+        <div class="actions">
+            <div class="ui buttons">
+                <a class="ui blue basic button"> 确认 </a>
+                <div class="ui basic red deny button"> 取消 </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $('.js-apply').click(function(){
+            $('.js-apply-confirm').modal('show');
+        });
+    </script>
+</body>
+</html>

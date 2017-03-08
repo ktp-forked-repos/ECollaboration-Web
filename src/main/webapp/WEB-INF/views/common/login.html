@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/common/structure}"
+      style="width: 100%; overflow-x: hidden;">
+<head>
+    <title>登录</title>
+    <script th:src="@{/resources/craft/js/footer.js}"></script>
+</head>
+<body layout:fragment="content" th:styleappend="'background-image:url(' + @{/resources/img/bg_compressed.jpg} + '); background-size:cover;'">
+
+    <section class="ui centered grid" style="position: absolute; top: 50%; margin-top: -16em;">
+        <div class="two wide column"></div>
+        <div class="twelve wide column">
+            <div class="ui black message fluid no-radius" style="opacity: .8; padding: 4em 0 2em 0;">
+                <h1 class="ui center aligned icon header" style="font-size: 3em; color: #FFF; font-weight: normal; padding: 0 3em 0 3em;"> 中国科学技术大学软件学院工程实践系统 </h1>
+                <h1 class="ui horizontal inverted divider" style="font-size: 2em; font-weight: normal; text-transform : none; margin-top: 1.3em;">
+                    <i class="code icon" style="font-size: 1em;"></i>
+                    Ecollaboration WEB
+                    <i class="code icon" style="font-size: 1em;"></i>
+                </h1>
+                <a id="js-login" href="{{ route('student_project') }}" class="ui circular github icon button" style="margin: 1em 0 0 0; padding: 0 0 0 0; font-size: 4em; background-color: transparent;">
+                    <i class="github icon fluid inverted" style="font-size: 1.5em"></i>
+                </a>
+                <p></p>
+                <a class="link" href="">查看系统登录说明</a>
+            </div>
+        </div>
+        <div class="two wide column"></div>
+    </section>
+
+    <footer th:replace="~{layout/common/footer::footer}">
+        <a href="" style="color: #FFF; font-weight: normal; font-size: .6em;">© Copyright 2016.USTC_TEAM. All Rights Reserved</a>
+    </footer>
+
+    <div class="ui modal" id="js-login-choose">
+        <div class="header">
+            <span > 选择 </span>
+        </div>
+        <div class="content">
+
+            <div class="ui form">
+                <div class="two fields required">
+                    <div class="field">
+                        <label> 用户名 </label>
+                        <input id="js-username" type="text" placeholder="请输入 Github 用户名">
+                    </div>
+                    <div class="field">
+                        <label> 密码 </label>
+                        <input id="js-password" type="password" placeholder="请输入密码">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="actions">
+            <div class="ui buttons">
+                <div id="js-login-btn" class="ui blue basic button"> 登录 </div>
+                <div class="ui basic red deny button"> 取消 </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        $(function(){
+            $('.js-footer').footer();
+            $('#js-login').click(function(e){
+                $('#js-login-choose').modal('show');
+                e.stopPropagation();
+                return false;
+            });
+
+            $('#js-login-btn').click(function(){
+                var data = {
+                    "username" : $('#js-username').val(),
+                    "password" : $('#js-password').val(),
+                }
+                $.post({
+                    url: 'api/v1/login',
+                    data: data,
+                    dataType: 'json',
+                }).done(function(data, status, xhr){
+                    switch(data.msg){
+                        case 'teacher' :
+                            document.cookie = "role=teacher";
+                            window.location.href = "{{ route('teacher_project') }}"; break;
+                        case 'student' :
+                            document.cookie = "role=student";
+                            window.location.href = "{{ route('student_project') }}"; break;
+                        case 'error' : alert('账号或密码错误'); break;
+                    }
+//                console.log(
+////                JSON.stringify(data, null, 4)
+//                )
+                })
+            });
+
+
+        })
+    </script>
+</body>
+</html>

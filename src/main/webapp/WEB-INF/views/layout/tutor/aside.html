@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org"
+      style="width: 100%; overflow-x: hidden;">
+<head>
+    <title>测试</title>
+</head>
+<body>
+    <aside th:fragment="aside(active)" class="ui small vertical fluid menu">
+        <div class="item">
+            <div class="ui icon input">
+                <input type="text" placeholder="搜索...">
+                <i class="search icon"></i>
+            </div>
+        </div>
+        <a th:classappend="${active} == 'apply' ? 'active' : ''" class="item"  th:href="@{/tutor/team/apply}">
+            查看申请
+        </a>
+        <a th:classappend="${active} == 'plan' ? 'active' : ''" class="item"  th:href="@{/tutor/team/plan}">
+            计划管理
+        </a>
+        <a th:classappend="${active} == 'progress' ? 'active' : ''" class="item"  th:href="@{/tutor/team/progress}">
+            队伍进展
+        </a>
+        <a th:classappend="${active} == 'schedule' ? 'active' : ''" class="item"  th:href="@{/tutor/team/schedule}">
+            <div class="ui small label">3</div>
+            日程管理
+        </a>
+        <a th:classappend="${active} == 'score' ? 'active' : ''" class="item"  th:href="@{/tutor/team/score}">
+            成绩管理
+        </a>
+    </aside>
+</body>
+</html>

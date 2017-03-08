@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="com.general.dao.entity.OptionEntity" table="Option" schema="ECollaborationWeb">
+        <id name="id" column="id"/>
+        <property name="title" column="title"/>
+        <property name="question" column="question" insert="false" update="false"/>
+        <many-to-one name="questionByQuestion" class="com.general.dao.entity.QuestionEntity">
+            <column name="question"/>
+        </many-to-one>
+        <set name="studentMultiAnswerQuestionOptionsById" inverse="true">
+            <key>
+                <column name="option"/>
+            </key>
+            <one-to-many not-found="ignore" class="com.general.dao.entity.StudentMultiAnswerQuestionOptionEntity"/>
+        </set>
+        <set name="studentSingleAnswerQuestionOptionsById" inverse="true">
+            <key>
+                <column name="option" not-null="true"/>
+            </key>
+            <one-to-many not-found="ignore" class="com.general.dao.entity.StudentSingleAnswerQuestionOptionEntity"/>
+        </set>
+    </class>
+</hibernate-mapping>

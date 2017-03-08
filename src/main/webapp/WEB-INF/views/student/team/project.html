@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/common/structure}"
+      style="width: 100%; overflow-x: hidden;">
+<head>
+    <title>我的小组</title>
+</head>
+<body layout:fragment="content">
+<header th:replace="~{layout/student/header::nav(active='team')}"></header>
+
+<section class="ui fluid container" style="margin-top: 1.5rem;">
+    <div class="ui grid relaxed">
+        <div class="one wide column"></div>
+
+        <!--菜单区-->
+        <div class="three wide column">
+            <aside th:replace="~{layout/student/aside::aside(active='project')}"></aside>
+        </div>
+
+        <div class="eleven wide column">
+            <table class="ui celled selectable structured small table center aligned">
+                <thead>
+                <tr>
+                    <th width="10"> 序号 </th>
+                    <th width="75%"> 项目名称 </th>
+                    <th width="15%"> 操作 </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="project, index : ${projectList}">
+                    <td th:text="${index.count}"> 1 </td>
+                    <td th:text="${project.title}" style="padding: 0 2em;" class="left aligned"> ECollaboration Web </td>
+                    <td> <button class="ui mini disabled button basic blue fluid"> <i class="icon exchange"></i> 切换项目 </button> </td>
+                </tr>
+
+                <tr th:remove="all">
+                    <td> 2 </td>
+                    <td style="padding: 0 2em;" class="left aligned"> ECollaboration App </td>
+                    <td> <button class="ui mini button basic teal fluid"> <i class="icon checkmark"></i> 当前项目 </button> </td>
+                </tr>
+
+                </tbody>
+            </table>
+        </div>
+
+        <div class="one wide column"></div>
+    </div>
+</section>
+
+<!--任务完成时模态框-->
+<div class="ui modal" id="js-finish-confirm">
+    <div class="header">
+        <span > 请填写必要信息 </span>
+        <div style="font-size: 0.7em; margin-top: 0.3em !important;">
+            <i class="info circle icon"></i>
+            提示：计划提交后，所有关联该计划的任务均会被提交并无法继续修改
+        </div>
+    </div>
+    <div class="content">
+        <div class="ui form">
+            <div class="two fields required">
+                <div class="field">
+                    <label> 名称 </label>
+                    <input type="text" disabled placeholder="任务名称" value="完成原型设计">
+                </div>
+                <div class="field">
+                    <label> 预期完成时间 </label>
+                    <input type="text" disabled value="2016/10/05">
+                </div>
+            </div>
+
+            <div class="field required">
+                <label> 计划描述 </label>
+                <textarea rows="5" disabled placeholder="请简述任务完成详情">请在指定时间内完成 blabla
+                    </textarea>
+            </div>
+
+            <div class="field required">
+                <label> 队长评价 </label>
+                <textarea rows="5" placeholder="请输入你对该计划完成情况的评价"></textarea>
+            </div>
+
+            <div style="margin-top: 1.5em;">
+                <button class="ui basic small blue button">
+                    <i class="file icon"></i>
+                    添加文件
+                </button>
+                <a href=""> 点击查看文件命名规范 </a>
+            </div>
+
+            <div class="ui selection divided list" style="margin-top: 1.5em;">
+                <div class="item">
+                    <div class="right floated content">
+                        <button class="ui basic red icon mini button js-download-file" style="padding: .4em;">
+                            <i class="remove icon"></i>
+                        </button>
+                    </div>
+                    <div class="content">
+                        <i class="file pdf outline icon"></i>
+                        汇报总结.pdf
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="right floated content">
+                        <button class="ui basic red icon mini button js-download-file" style="padding: .4em;">
+                            <i class="remove icon"></i>
+                        </button>
+                    </div>
+                    <div class="content">
+                        <i class="file pdf outline icon"></i>
+                        UML.pdf
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="actions">
+        <div class="ui buttons">
+            <a class="ui blue basic button"> 确认 </a>
+            <div class="ui basic red deny button"> 取消 </div>
+        </div>
+    </div>
+</div>
+
+<!--查看任务详细情况模态框-->
+<div class="ui modal" id="js-detail-confirm">
+    <div class="header">
+        <span > 计划详情 </span>
+    </div>
+    <div class="content">
+        <div class="ui form">
+            <div class="two fields required">
+                <div class="field">
+                    <label> 名称 </label>
+                    <input type="text" disabled placeholder="任务名称" value="完成原型设计">
+                </div>
+                <div class="field">
+                    <label> 预期完成时间 </label>
+                    <input type="text" disabled value="2016/10/05">
+                </div>
+            </div>
+
+            <div class="field required">
+                <label> 计划描述 </label>
+                <textarea disabled rows="5" placeholder="任务描述">完成对该 Web 项目的原型设计，已明确需求、统一任务。</textarea>
+            </div>
+
+            <div class="ui selection divided list" style="margin-top: 2em;">
+                <div class="item">
+                    <div class="right floated content">
+                        <button class="ui basic blue icon mini button js-download-file" style="padding: .4em;">
+                            <i class="download icon"></i>
+                        </button>
+                    </div>
+                    <div class="content">
+                        <i class="file pdf outline icon"></i>
+                        计划指南.pdf
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="right floated content">
+                        <button class="ui basic blue icon mini button js-download-file" style="padding: .4em;">
+                            <i class="download icon"></i>
+                        </button>
+                    </div>
+                    <div class="content">
+                        <i class="file pdf outline icon"></i>
+                        原型设计要求.pdf
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="right floated content">
+                        <button class="ui basic blue icon mini button js-download-file" style="padding: .4em;">
+                            <i class="download icon"></i>
+                        </button>
+                    </div>
+                    <div class="content">
+                        <i class="file pdf outline icon"></i>
+                        原型设计要求.pdf
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="actions">
+        <div class="ui buttons">
+            <div class="ui basic blue deny button"> 关闭 </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('.js-finish').click(function(e){
+        $('#js-finish-confirm').modal('show');
+        // 这里判断是否提交成功再确定选项按钮的状态
+        e.stopPropagation();
+        return false;
+    });
+    $('.js-detail').click(function(e){
+        $('#js-detail-confirm').modal('show');
+        e.stopPropagation();
+        return false;
+    });
+</script>
+</body>
+</html>

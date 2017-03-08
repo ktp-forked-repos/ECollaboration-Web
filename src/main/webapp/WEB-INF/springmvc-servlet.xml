@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop" 
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans     
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/mvc 
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd
+        http://www.springframework.org/schema/context 
+        http://www.springframework.org/schema/context/spring-context.xsd		
+        http://www.springframework.org/schema/aop
+		http://www.springframework.org/schema/aop/spring-aop.xsd
+		http://www.springframework.org/schema/tx
+		http://www.springframework.org/schema/tx/spring-tx.xsd">
+	<!-- Spring manages object creation-->
+	<!-- Specifying base package of the components like controllers, service, dao-->
+ 	<context:component-scan base-package="com.general" />
+	<!-- Getting database properties-->
+	<context:property-placeholder location="classpath:application.properties"/>
+	<mvc:default-servlet-handler/>
+	<mvc:annotation-driven/>
+	<!-- Specifying the resource location to load js, css, images, etc-->
+	<mvc:resources mapping="/resources/**" location="/resources/" />
+	<!-- Interceptors -->
+	<mvc:interceptors>
+		<bean class="com.general.interceptor.LoginInterceptor"/>
+		<bean class="com.general.interceptor.AuthInterceptor"/>
+		<bean class="com.general.interceptor.CrosInterceptor"/>
+	</mvc:interceptors>
+
+	<!-- DataSource-->
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+		<property name="driverClass" value="${database.driverClass}"/>
+		<property name="jdbcUrl" value="${database.jdbcUrl}" />
+		<property name="user" value="${database.user}" />
+		<property name="password" value="${database.password}" />
+
+		<property name="acquireIncrement" value="${connection.acquireIncrement}" />
+		<property name="minPoolSize" value="${connection.minPoolSize}" />
+		<property name="maxPoolSize" value="${connection.maxPoolSize}" />
+		<property name="maxIdleTime" value="${connection.maxIdleTime}" />
+	</bean>
+	<!-- Hibernate SessionFactory-->
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">${hibernate.dialect}</prop>
+				<prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>
+				<prop key="hibernate.format_sql">${hibernate.format_sql}</prop>
+				<prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
+                <prop key="hibernate.connection.url">jdbc:mysql://115.28.163.139:3306/ECollaborationWeb</prop>
+                <prop key="hibernate.connection.driver_class">com.mysql.jdbc.Driver</prop>
+            </props>
+		</property>
+		<property name="packagesToScan" value="com.general.dao"/>
+        <property name="mappingLocations">
+            <list>
+                <value>classpath:com/general/dao/entity/AccessEntity.hbm.xml</value>
+                <value>classpath:com/general/dao/entity/FileEntity.hbm.xml</value>
+                <value>classpath:com/general/dao/entity/MailEntity.hbm.xml</value>
+                <value>classpath:com/general/dao/entity/MailFileEntity.hbm.xml</value>
+                <value>classpath:com/general/dao/entity/MailUserEntity.hbm.xml</value>
+                <value>classpath:com/general/dao/entity/MultiAnswerQuestionEntity.hbm.xml</value>
+                <value>classpath:com/general/dao/entity/NoticeEntity.hbm.xml</value>
+                <value>classpath:com/general/dao/entity/NoticeUserEntity.hbm.xml</value>
+                <value>classpath:com/general/dao/entity/OptionEntity.hbm.xml</value>
+                <value>classpath:com/general/dao/entity/PlanEntity.hbm.xml</value>
+                <value>classpath:com/general/dao/entity/PlanStudentFileEntity.hbm.xml</value>
+                <value>classpath:com/general/dao/entity/PlanTeacherFileEntity.hbm.xml</value>
+                <value>classpath:com/general/dao/entity/PlanTeamEntity.hbm.xml</value>
+                <value>classpath:com/general/dao/entity/ProjectEntity.hbm.xml</value>
+                <value>classpath:com/general/dao/entity/ProjectStudentEntity.hbm.xml</value>
+                <value>classpath:com/general/dao/entity/QuestionEntity.hbm.xml</value>
+                <value>classpath:com/general/dao/entity/QuestionaireEntity.hbm.xml</value>
+                <value>classpath:com/general/dao/entity/RoleEntity.hbm.xml</value>
+                <value>classpath:com/general/dao/entity/ScheduleEntity.hbm.xml</value>
+                <value>classpath:com/general/dao/entity/ScheduleUserEntity.hbm.xml</value>
+                <value>classpath:com/general/dao/entity/ShortAnswerQuestionEntity.hbm.xml</value>
+                <value>classpath:com/general/dao/entity/SingleAnswerQuestionEntity.hbm.xml</value>
+                <value>classpath:com/general/dao/entity/StudentEntity.hbm.xml</value>
+                <value>classpath:com/general/dao/entity/StudentMultiAnswerQuestionOptionEntity.hbm.xml</value>
+                <value>classpath:com/general/dao/entity/StudentShortAnswerQuestionEntity.hbm.xml</value>
+                <value>classpath:com/general/dao/entity/StudentSingleAnswerQuestionOptionEntity.hbm.xml</value>
+                <value>classpath:com/general/dao/entity/TaskEntity.hbm.xml</value>
+                <value>classpath:com/general/dao/entity/TaskFileEntity.hbm.xml</value>
+                <value>classpath:com/general/dao/entity/TaskStudentEntity.hbm.xml</value>
+                <value>classpath:com/general/dao/entity/TeamEntity.hbm.xml</value>
+                <value>classpath:com/general/dao/entity/TeamScoreEntity.hbm.xml</value>
+                <value>classpath:com/general/dao/entity/TeamStudentEntity.hbm.xml</value>
+                <value>classpath:com/general/dao/entity/TutorEntity.hbm.xml</value>
+                <value>classpath:com/general/dao/entity/UserEntity.hbm.xml</value>
+                <value>classpath:com/general/dao/entity/FinalEntity.hbm.xml</value>
+                <value>classpath:com/general/dao/entity/FinalFileEntity.hbm.xml</value>
+                <value>classpath:com/general/dao/entity/FinalEntity.hbm.xml</value>
+                <value>classpath:com/general/dao/entity/FinalFileEntity.hbm.xml</value>
+                <value>classpath:com/general/dao/entity/FinalFileEntity.hbm.xml</value>
+                <value>classpath:com/general/dao/entity/FinalFileEntity.hbm.xml</value>
+            </list>
+        </property>
+    </bean>
+	<!-- Transaction-->
+	<bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	<tx:annotation-driven transaction-manager="transactionManager"/>
+
+    <!-- ViewResolver -->
+<!--
+    <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/jsp/"></property>
+        <property name="suffix" value=".jsp"></property>
+    </bean>
+-->
+
+    <!-- TemplateResolver Configuration for Thymeleaf-->
+    <bean id="templateResolver" class="org.thymeleaf.spring4.templateresolver.SpringResourceTemplateResolver">
+        <property name="prefix" value="/WEB-INF/views/"/>
+        <property name="suffix" value=".html" />
+        <property name="templateMode" value="HTML" />
+        <property name="cacheable" value="false" />
+        <property name="characterEncoding" value="UTF-8" />
+    </bean>
+    <!-- GroupingStrategy-->
+    <bean id="groupingStrategy" class="nz.net.ultraq.thymeleaf.decorators.strategies.GroupingStrategy"></bean>
+    <!-- TemplateEngine-->
+    <bean id="templateEngine" class="org.thymeleaf.spring4.SpringTemplateEngine">
+        <property name="templateResolver" ref="templateResolver"></property>
+        <property name="additionalDialects">
+            <set>
+                <bean class="nz.net.ultraq.thymeleaf.LayoutDialect">
+                    <constructor-arg ref="groupingStrategy" />
+                </bean>
+            </set>
+        </property>
+    </bean>
+    <!-- ThymeleafViewResolver-->
+    <bean id="thymeleafViewResolver" class="org.thymeleaf.spring4.view.ThymeleafViewResolver">
+        <property name="templateEngine" ref="templateEngine"/>
+        <property name="characterEncoding" value="UTF-8" />
+    </bean>
+</beans>

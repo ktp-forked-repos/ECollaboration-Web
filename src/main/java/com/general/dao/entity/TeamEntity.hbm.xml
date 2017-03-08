@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="com.general.dao.entity.TeamEntity" table="Team" schema="ECollaborationWeb">
+        <id name="id" column="id"/>
+        <property name="name" column="name"/>
+        <property name="applyAt" column="apply_at"/>
+        <property name="passAt" column="pass_at"/>
+        <property name="failAt" column="fail_at"/>
+        <property name="createAt" column="create_at"/>
+        <property name="leader" column="leader" insert="false" update="false"/>
+        <property name="project" column="project" insert="false" update="false"/>
+        <many-to-one name="studentByLeader" class="com.general.dao.entity.StudentEntity">
+            <column name="leader"/>
+        </many-to-one>
+        <many-to-one name="projectByProject" class="com.general.dao.entity.ProjectEntity">
+            <column name="project"/>
+        </many-to-one>
+        <one-to-one name="finalByTeam" class="com.general.dao.entity.FinalEntity"/>
+        <set name="planTeamsById" inverse="true">
+            <key>
+                <column name="team"/>
+            </key>
+            <one-to-many not-found="ignore" class="com.general.dao.entity.PlanTeamEntity"/>
+        </set>
+        <set name="tasksById" inverse="true">
+            <key>
+                <column name="team"/>
+            </key>
+            <one-to-many not-found="ignore" class="com.general.dao.entity.TaskEntity"/>
+        </set>
+        <set name="teamScoresById" inverse="true">
+            <key>
+                <column name="team"/>
+            </key>
+            <one-to-many not-found="ignore" class="com.general.dao.entity.TeamScoreEntity"/>
+        </set>
+        <set name="teamStudentsById" inverse="true">
+            <key>
+                <column name="team"/>
+            </key>
+            <one-to-many not-found="ignore" class="com.general.dao.entity.TeamStudentEntity"/>
+        </set>
+        <set name="FinalFileByTeam" inverse="true">
+            <key>
+                <column name="team"/>
+            </key>
+            <one-to-many class="com.general.dao.entity.FinalFileEntity"/>
+        </set>
+    </class>
+</hibernate-mapping>

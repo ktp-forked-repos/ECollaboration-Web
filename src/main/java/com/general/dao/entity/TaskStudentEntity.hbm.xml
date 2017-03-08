@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="com.general.dao.entity.TaskStudentEntity" table="Task__Student" schema="ECollaborationWeb">
+        <composite-id mapped="true" class="com.general.dao.entity.TaskStudentEntityPK">
+            <key-property name="student" column="student"/>
+            <key-property name="task" column="task"/>
+        </composite-id>
+        <many-to-one name="studentByStudent" class="com.general.dao.entity.StudentEntity" insert="false" update="false">
+            <column name="student"/>
+        </many-to-one>
+        <many-to-one name="taskByTask" class="com.general.dao.entity.TaskEntity" insert="false" update="false">
+            <column name="task"/>
+        </many-to-one>
+    </class>
+</hibernate-mapping>

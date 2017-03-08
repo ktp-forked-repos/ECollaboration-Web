@@ -1,0 +1,416 @@
+<!doctype html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/common/structure}"
+      style="width: 100%; overflow-x: hidden;">
+<head>
+    <title>任务管理</title>
+    <link rel="stylesheet" th:href="@{/resources/lib/css/timeline.css}">
+</head>
+<body layout:fragment="content">
+<header th:replace="~{layout/student/header::nav(active='team')}"></header>
+
+<section class="ui fluid container" style="margin-top: 1.5rem;">
+    <div class="ui grid relaxed">
+        <div class="one wide column"></div>
+
+        <!--菜单区-->
+        <div class="three wide column">
+            <aside th:replace="~{layout/student/aside::aside(active='task')}"></aside>
+        </div>
+
+        <div class="eleven wide column">
+            <div class="ui form" style="z-index: 998">
+                <div class="five fields">
+                    <div class="field">
+                        <label> 任务所属 </label>
+                        <select class="ui dropdown fluid">
+                            <option value="">任务所属</option>
+                            <option value="1">我的</option>
+                            <option value="2">张三</option>
+                            <option value="3" selected>全部</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label> 时间段 </label>
+                        <select class="ui dropdown fluid">
+                            <option value="">时间段</option>
+                            <option value="1">今日</option>
+                            <option value="2">本周</option>
+                            <option value="3">本月</option>
+                            <option value="4" selected>全部</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label> 状态 </label>
+                        <select class="ui dropdown fluid">
+                            <option value="">状态</option>
+                            <option value="1">未完成</option>
+                            <option value="2">已完成</option>
+                            <option value="3" selected>全部</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label> 显示 </label>
+                        <select class="ui dropdown fluid">
+                            <option value="">显示方式</option>
+                            <option value="1" selected>时间轴</option>
+                            <option value="2">列表</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label> &nbsp; </label>
+                        <button class="ui basic blue button fluid" id="js-add">
+                            <i class="icon add to calendar"></i> 添加任务
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="timeline-content">
+                <div class="wrapper">
+                    <div class="light"><i></i></div>
+                    <hr class="line-left">
+                    <hr class="line-right">
+                    <div class="main">
+                        <div class="year">
+                            <div class="list">
+                                <ul>
+                                    <li th:each="plan, index : ${planDetailList}" th:classappend="${plan.isFinished ? 'highlight' : ''}" class="cls">
+                                        <p th:text="${plan.deadline}" class="date">2016.10.10</p>
+                                        <p th:text="${index.count} + '. ' + ${plan.title}" class="intro">1. 需求分析</p>
+                                        <p class="version">&nbsp;</p>
+                                        <div class="more">
+                                            <div th:each="task, taskIndex : ${plan.tasks}" style="padding: .5em 5% 0 5%">
+                                                <div class="ui inverted segment fluid" th:styleappend="${task.isFinished ? 'background-color:rgba(0,0,0,.2)' : 'background-color: rgba(0,0,0,.5)'}">
+                                                    <a th:text="${task.title} + '（' + ${task.deadline} + '）'" href="" class="js-detail">
+                                                        <i th:classappend="${task.isFinished ? 'green checkmark' : ''}" class="icon"></i>
+                                                        完成原型设计 ( 2016.9.16 20:00 )</a>
+                                                    <div th:text="${task.detail}" class="content" style="padding: 1em 5% 0 5%">
+                                                        <p>这里显示任务详情</p>
+                                                    </div>
+                                                    <p style="margin-top: 2em;">
+                                                        <a class="js-detail" href="">查看详细</a>
+                                                        &nbsp;/&nbsp;
+                                                        <a class="js-finish" href="">任务完成</a>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div th:remove="all" style="padding: .5em 5% 0 5%">
+                                                <div class="ui inverted segment fluid" style="background-color:rgba(0,0,0,.2)">
+                                                    <a href="" class="js-detail"> <i class="icon green checkmark"></i>完成原型设计 ( 2016.9.16 20:00 )</a>
+                                                    <div class="content" style="padding: 1em 5% 0 5%">
+                                                        <p>这里显示任务详情, 浅黑色表示已完成</p>
+                                                    </div>
+                                                    <p style="margin-top: 2em;">
+                                                        <a class="js-detail" href="">查看详细</a>
+                                                        &nbsp;/&nbsp;
+                                                        <a class="js-finish" href="">任务完成</a>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                    <li class="cls" th:remove="all">
+                                        <p class="date">2016.11.10</p>
+                                        <p class="intro">2. 原型设计</p>
+                                        <p class="version">&nbsp;</p>
+                                        <div class="more">
+                                            <div style="padding: .5em 5% 0 5%">
+                                                <div class="ui inverted segment fluid" style="background-color: rgba(0,0,0,.5)">
+                                                    <a href="" class="js-detail">完成原型设计 ( 2016.9.16 20:00 )</a>
+                                                    <div class="content" style="padding: 1em 5% 0 5%">
+                                                        <p>这里显示任务详情</p>
+                                                    </div>
+                                                    <p style="margin-top: 2em;">
+                                                        <a class="js-detail" href="">查看详细</a>
+                                                        &nbsp;/&nbsp;
+                                                        <a class="js-finish" href="">任务完成</a>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                    <li class="cls" th:remove="all">
+                                        <p class="date">2016.11.30</p>
+                                        <p class="intro">3. 数据库设计</p>
+                                        <p class="version">&nbsp;</p>
+                                        <div class="more">
+                                            <div style="padding: .5em 5% 0 5%">
+                                                <div class="ui inverted segment fluid" style="background-color: rgba(0,0,0,.5)">
+                                                    <a href="" class="js-detail">完成原型设计 ( 2016.9.16 20:00 )</a>
+                                                    <div class="content" style="padding: 1em 5% 0 5%">
+                                                        <p>这里显示任务详情</p>
+                                                    </div>
+                                                    <p style="margin-top: 2em;">
+                                                        <a class="js-detail" href="">查看详细</a>
+                                                        &nbsp;/&nbsp;
+                                                        <a class="js-finish" href="">任务完成</a>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                    <li class="cls" th:remove="all">
+                                        <p class="date">2016.12.10</p>
+                                        <p class="intro">4. 编码实现</p>
+                                        <p class="version">&nbsp;</p>
+                                        <div class="more">
+                                            <div style="padding: .5em 5% 0 5%">
+                                                <div class="ui inverted segment fluid" style="background-color: rgba(0,0,0,.5)">
+                                                    <a href="" class="js-detail">完成原型设计 ( 2016.9.16 20:00 )</a>
+                                                    <div class="content" style="padding: 1em 5% 0 5%">
+                                                        <p>这里显示任务详情</p>
+                                                    </div>
+                                                    <p style="margin-top: 2em;">
+                                                        <a class="js-detail" href="">查看详细</a>
+                                                        &nbsp;/&nbsp;
+                                                        <a class="js-finish" href="">任务完成</a>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                </ul>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="one wide column"></div>
+    </div>
+</section>
+
+<!--任务完成时模态框-->
+<div class="ui modal" id="js-finish-confirm">
+    <div class="header">
+        <span > 请填写必要信息 </span>
+    </div>
+    <div class="content">
+        <div class="ui form">
+            <div class="field required">
+                <label> 简述 </label>
+                <textarea rows="5" placeholder="请简述任务完成详情"></textarea>
+            </div>
+
+            <button class="ui basic small blue button">
+                <i class="file icon"></i>
+                添加文件
+            </button>
+            <a href=""> 点击查看文件命名规范 </a>
+        </div>
+    </div>
+    <div class="actions">
+        <div class="ui buttons">
+            <a class="ui blue basic button"> 确认 </a>
+            <div class="ui basic red deny button"> 取消 </div>
+        </div>
+    </div>
+</div>
+
+<!--查看任务详细情况模态框-->
+<div class="ui modal" id="js-detail-confirm">
+    <div class="header">
+        <span > 任务详情 </span>
+    </div>
+    <div class="content">
+        <div class="ui form">
+            <div class="two fields required">
+                <div class="field">
+                    <label> 名称 </label>
+                    <input type="text" disabled placeholder="任务名称" value="完成原型设计">
+                </div>
+                <div class="field">
+                    <label> 所属计划 </label>
+                    <input type="text" disabled value="所属计划">
+                </div>
+            </div>
+
+            <div class="field required">
+                <label> 任务描述 </label>
+                <textarea disabled rows="5" placeholder="任务描述">完成对该 Web 项目的原型设计，已明确需求、统一任务。</textarea>
+            </div>
+
+            <div class="two fields required">
+                <div class="field">
+                    <label> 截止时间 </label>
+                    <input disabled type="text" placeholder="请输入截止时间" value="2016/09/09">
+                </div>
+                <div class="field">
+                    <label> 参与者 </label>
+                    <div style="margin-top: .8em;">
+                        <a class="ui label"> 张三 </a>
+                        <a class="ui label"> 李四 </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ui selection divided list" style="margin-top: 2em;">
+                <div class="item">
+                    <div class="right floated content">
+                        <button class="ui basic blue icon mini button js-download-file" style="padding: .4em;">
+                            <i class="download icon"></i>
+                        </button>
+                    </div>
+                    <div class="content">
+                        <i class="file pdf outline icon"></i>
+                        原型设计要求.pdf
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="right floated content">
+                        <button class="ui basic blue icon mini button js-download-file" style="padding: .4em;">
+                            <i class="download icon"></i>
+                        </button>
+                    </div>
+                    <div class="content">
+                        <i class="file pdf outline icon"></i>
+                        原型设计要求.pdf
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="right floated content">
+                        <button class="ui basic blue icon mini button js-download-file" style="padding: .4em;">
+                            <i class="download icon"></i>
+                        </button>
+                    </div>
+                    <div class="content">
+                        <i class="file pdf outline icon"></i>
+                        原型设计要求.pdf
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="actions">
+        <div class="ui buttons">
+            <div class="ui basic blue deny button"> 关闭 </div>
+        </div>
+    </div>
+</div>
+
+<!--添加任务模态框-->
+<div class="ui modal" id="js-add-confirm">
+    <div class="header">
+        <span > 请填写必要信息 </span>
+    </div>
+    <div class="content">
+        <div class="ui form">
+            <div class="two fields required">
+                <div class="field">
+                    <label> 名称 </label>
+                    <input type="text" placeholder="任务名称">
+                </div>
+                <div class="field">
+                    <label> 所属计划 </label>
+                    <select class="ui dropdown">
+                        <option value="1">1. 原型设计</option>
+                        <option value="2">2. 数据库设计</option>
+                        <option value="3">3. 前后台对接</option>
+                        <option value="4">4. 代码重构</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="field required">
+                <label> 任务描述 </label>
+                <textarea rows="5" placeholder="请添加任务描述"></textarea>
+            </div>
+
+            <div class="two fields required">
+                <div class="field">
+                    <label> 截止时间 </label>
+                    <input type="text" placeholder="请输入截止时间">
+                </div>
+                <div class="field">
+                    <label> 参与者 </label>
+                    <select name="skills" multiple="" class="ui fluid dropdown">
+                        <option value=""> 任务所属 </option>
+                        <option value="AL"> 张三 </option>
+                        <option value="AK"> 李四 </option>
+                        <option value="AZ"> 王五 </option>
+                    </select>
+                </div>
+            </div>
+
+            <button class="ui basic small blue button">
+                <i class="file icon"></i>
+                添加文件
+            </button>
+            <a href=""> 点击查看文件命名规范 </a>
+
+            <div class="ui selection divided list" style="margin-top: 2em;">
+                <div class="item">
+                    <div class="right floated content">
+                        <button class="ui basic red icon mini button js-remove-file" style="padding: .4em;">
+                            <i class="remove icon"></i>
+                        </button>
+                    </div>
+                    <div class="content">
+                        <i class="file pdf outline icon"></i>
+                        原型设计要求.pdf
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="right floated content">
+                        <button class="ui basic red icon mini button js-remove-file" style="padding: .4em;">
+                            <i class="remove icon"></i>
+                        </button>
+                    </div>
+                    <div class="content">
+                        <i class="file pdf outline icon"></i>
+                        原型设计要求.pdf
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="right floated content">
+                        <button class="ui basic red icon mini button js-remove-file" style="padding: .4em;">
+                            <i class="remove icon"></i>
+                        </button>
+                    </div>
+                    <div class="content">
+                        <i class="file pdf outline icon"></i>
+                        原型设计要求.pdf
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="actions">
+        <div class="ui buttons">
+            <a class="ui blue basic button"> 确认 </a>
+            <div class="ui basic red deny button"> 取消 </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('#js-add').click(function(){
+        $('#js-add-confirm').modal('show');
+    });
+    $('.js-finish').click(function(e){
+        $('#js-finish-confirm').modal('show');
+        // 这里判断是否提交成功再确定选项按钮的状态
+        e.stopPropagation();
+        return false;
+
+    });
+    $('.js-detail').click(function(e){
+        $('#js-detail-confirm').modal('show');
+        e.stopPropagation();
+        return false;
+    });
+    $('.js-remove-task').click(function(e){
+        alert('remove');
+        e.stopPropagation();
+    });
+</script>
+</body>
+</html>

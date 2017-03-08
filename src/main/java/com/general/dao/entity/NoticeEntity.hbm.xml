@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="com.general.dao.entity.NoticeEntity" table="Notice" schema="ECollaborationWeb">
+        <id name="id" column="id"/>
+        <property name="sender" column="sender" update="false" insert="false"/>
+        <property name="title" column="title"/>
+        <property name="content" column="content"/>
+        <property name="sendAt" column="send_at"/>
+        <property name="isChecked" column="is_checked"/>
+        <many-to-one name="userBySender" class="com.general.dao.entity.UserEntity">
+            <column name="sender"/>
+        </many-to-one>
+        <set name="noticeUsersById" inverse="true">
+            <key>
+                <column name="notice"/>
+            </key>
+            <one-to-many not-found="ignore" class="com.general.dao.entity.NoticeUserEntity"/>
+        </set>
+    </class>
+</hibernate-mapping>

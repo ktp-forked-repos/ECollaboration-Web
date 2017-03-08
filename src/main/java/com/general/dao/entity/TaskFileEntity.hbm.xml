@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="com.general.dao.entity.TaskFileEntity" table="Task_File" schema="ECollaborationWeb">
+        <id name="file" column="file"/>
+        <property name="task" column="task" insert="false" update="false"/>
+        <many-to-one name="taskByTask" class="com.general.dao.entity.TaskEntity">
+            <column name="task"/>
+        </many-to-one>
+        <one-to-one name="fileByFile" class="com.general.dao.entity.FileEntity"/>
+    </class>
+</hibernate-mapping>
