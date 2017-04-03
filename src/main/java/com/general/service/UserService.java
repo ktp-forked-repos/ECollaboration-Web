@@ -1,7 +1,6 @@
-package com.huhang.service;
+package com.general.service;
 
-import com.huhang.entity.UsersEntity;
-import com.huhang.model.UserDto;
+import com.general.dao.entity.UserEntity;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
@@ -10,20 +9,7 @@ import java.util.List;
  * Created by joanna on 3/15/17.
  */
 public interface UserService {
-    ResponseEntity findById(long id);
 
-    UserDto findByName(String name);
-
-    void saveUser(UsersEntity usersEntity);
-
-    void updateUser(UserDto userDto);
-
-    void deleteUserById(long id);
-
-    List<UserDto> findAllUsers();
-
-    //void deleteAllUsers();
-
-    public boolean isUserExist(String username);
-
+    UserEntity findByName(String username);
+    List<String> getRoles(String username);
 }

@@ -13,7 +13,7 @@ import java.util.List;
 @Repository
 public class EntityDAOImpl  implements EntityDAO{
     @Autowired
-    HibernateUtil hibernateUtil;
+    private HibernateUtil hibernateUtil;
     @Override
     public <T> long createEntity(T entity) {
         Serializable serializable=hibernateUtil.create(entity);

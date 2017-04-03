@@ -1,4 +1,4 @@
-package com.huhang.security;
+package com.general.security;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

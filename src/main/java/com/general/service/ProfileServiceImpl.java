@@ -31,19 +31,20 @@ public class ProfileServiceImpl implements ProfileService {
         profileDTO.setName(userEntity.getName());
         profileDTO.setStudentId(studentEntity.getStudentId());
         Integer gd = userEntity.getGender();
-        profileDTO.setGender(Gender.valueOf(gd==0?"FEMALE":"MALE"));
+        if(gd==0){
+            profileDTO.setGender(Gender.FEMALE);
+        }else{
+            profileDTO.setGender(Gender.MALE);
+        }
         //System.out.println(profileDTO.getGender());
         profileDTO.setPhoneNumber(userEntity.getTelephone());
         profileDTO.setWechatAccount(userEntity.getWechat());
         profileDTO.setGithubAccount(userEntity.getGithub());
         profileDTO.setEmail(userEntity.getEmail());
         profileDTO.setEmailPassword(userEntity.getPassword());
-        String etp = userEntity.getEmailType();
-        //数字转枚举类型对应值
-        if(etp.equals("126"))	etp="ONETWOSIX";
-        if(etp.equals("163"))	etp="ONESIXTHREE";
-        profileDTO.setEmailType(EmailType.valueOf(etp.toUpperCase()).ordinal());
-        //System.out.println(profileDTO.getEmailType().ordinal());
+        //convert emailtype from string in database to enum in Java code
+        profileDTO.setEmailType(EmailType.valueOf(userEntity.getEmailType().toUpperCase()));
+        //System.out.println(profileDTO.getEmailType());
 
         return profileDTO;
 	}

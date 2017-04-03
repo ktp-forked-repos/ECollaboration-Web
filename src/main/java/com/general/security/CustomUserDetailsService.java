@@ -1,9 +1,7 @@
-package com.huhang.security;
+package com.general.security;
 
-import com.huhang.entity.UsersEntity;
-import com.huhang.entity.UserRolesEntity;
-import com.huhang.model.UserDto;
-import com.huhang.service.UserService;
+import com.general.dao.entity.UserEntity;
+import com.general.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -14,8 +12,10 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.*;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Created by joanna on 3/15/17.
@@ -27,14 +27,15 @@ public class CustomUserDetailsService implements UserDetailsService{
     @Transactional(readOnly = true)
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserDto userDto = userService.findByName(username);
+        UserEntity userEntity = userService.findByName(username);
+        List<String> roles = userService.getRoles(username);
         Set<GrantedAuthority> grantedAuthorities=new HashSet<>();
-        for(Iterator<String> i=userDto.getRoles().iterator(); i.hasNext(); ){
+        for(Iterator<String> i=roles.iterator(); i.hasNext(); ){
             grantedAuthorities.add(new SimpleGrantedAuthority(i.next()));
         }
         return new User(
-                userDto.getName(),
-                userDto.getPassword(),
+                userEntity.getGithub(),
+                userEntity.getPassword(),
                 true, true, true, true,
                 grantedAuthorities);
     }

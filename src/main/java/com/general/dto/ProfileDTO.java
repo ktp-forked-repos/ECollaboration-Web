@@ -2,6 +2,7 @@ package com.general.dto;
 
 import com.general.Enum.EmailType;
 import com.general.Enum.Gender;
+import org.hibernate.validator.constraints.Email;
 
 /**
  * Created by joanna on 16-12-24.
@@ -15,7 +16,7 @@ public class ProfileDTO {
     private String githubAccount;
     private String email;
     private String emailPassword;
-    private Integer emailType;
+    private EmailType emailType;
     public String getStudentId() {
         return studentId;
     }
@@ -79,11 +80,11 @@ public class ProfileDTO {
         this.emailPassword = emailPassword;
     }
 
-    public Integer getEmailType() {
+    public EmailType getEmailType() {
         return emailType;
     }
 
-    public void setEmailType(Integer emailType) {
+    public void setEmailType(EmailType emailType) {
         this.emailType = emailType;
     }
 
