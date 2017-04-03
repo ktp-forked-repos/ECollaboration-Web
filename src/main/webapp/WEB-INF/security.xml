@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+       xmlns:beans="http://www.springframework.org/schema/beans"
+       xmlns:oauth="http://www.springframework.org/schema/security/oauth2"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/security
+                           http://www.springframework.org/schema/security/spring-security.xsd
+                           http://www.springframework.org/schema/security/oauth2
+                           http://www.springframework.org/schema/security/spring-security-oauth2.xsd">
+    <http pattern="/oauth/token"
+          create-session="stateless"
+          authentication-manager-ref="clientAuthenticationManager">
+        <intercept-url pattern="/oauth/token" access="isFullyAuthenticated()"/>
+        <anonymous enabled="false"/>
+        <csrf disabled="true"/>
+        <access-denied-handler ref="accessDeniedHandler"/>
+        <http-basic entry-point-ref="authenticationEntryPoint"></http-basic>
+    </http>
+    <http create-session="never" entry-point-ref="authenticationEntryPoint">
+        <intercept-url pattern="/user/**" access="hasRole('ROLE_USER')"/>
+        <anonymous enabled="false" />
+        <access-denied-handler ref="accessDeniedHandler"/>
+        <custom-filter ref="resourceServerFilter" before="PRE_AUTH_FILTER"/>
+    </http>
+    <beans:bean id="authenticationEntryPoint"
+                class="org.springframework.security.oauth2.provider.error.OAuth2AuthenticationEntryPoint">
+        <beans:property name="realmName" value="HUHANG_OAUTH_REALM/client"></beans:property>
+
+    </beans:bean>
+    <beans:bean id="accessDeniedHandler"
+                class="org.springframework.security.oauth2.provider.error.OAuth2AccessDeniedHandler">
+    </beans:bean>
+
+    <authentication-manager id="userAuthenticationManager">
+        <authentication-provider user-service-ref="customUserDetailsService"/>
+    </authentication-manager>
+    <authentication-manager id="clientAuthenticationManager">
+        <authentication-provider user-service-ref="clientDetailsUserDetailsService"/>
+    </authentication-manager>
+    <beans:bean id="clientDetailsUserDetailsService"
+            class="org.springframework.security.oauth2.provider.client.ClientDetailsUserDetailsService">
+
+        <beans:constructor-arg ref="customClientDetailsService"/>
+    </beans:bean>
+    <beans:bean id="inMemoryTokenStore"
+                class="org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore">
+    </beans:bean>
+    <beans:bean id="tokenStoreUserApprovalHandler"
+            class="org.springframework.security.oauth2.provider.approval.TokenStoreUserApprovalHandler">
+        <beans:property name="tokenStore" ref="inMemoryTokenStore"/>
+        <beans:property name="requestFactory" ref="oAuth2RequestFactory"/>
+        <beans:property name="clientDetailsService" ref="customClientDetailsService"/>
+    </beans:bean>
+    <beans:bean id="oAuth2RequestFactory" 
+            class="org.springframework.security.oauth2.provider.request.DefaultOAuth2RequestFactory">
+
+        <beans:constructor-arg ref="customClientDetailsService"/>
+    </beans:bean>
+    <beans:bean id="tokenApprovalStore"
+            class="org.springframework.security.oauth2.provider.approval.TokenApprovalStore">
+    </beans:bean>
+
+
+    <oauth:authorization-server client-details-service-ref="customClientDetailsService"
+                                token-services-ref="tokenServices"
+                                user-approval-handler-ref="tokenStoreUserApprovalHandler">
+        <oauth:authorization-code/>
+        <oauth:implicit/>
+        <oauth:refresh-token/>
+        <oauth:client-credentials/>
+        <oauth:password authentication-manager-ref="userAuthenticationManager"/>
+    </oauth:authorization-server>
+    <oauth:resource-server id="resourceServerFilter"
+                           resource-id="huhang_rest_api"
+                           stateless="false"
+                            token-services-ref="tokenServices"/>
+    <global-method-security pre-post-annotations="enabled" proxy-target-class="true">
+        <expression-handler ref="oAuth2MethodSecurityExpressionHandler"/>
+    </global-method-security>
+    <oauth:expression-handler id="oAuth2MethodSecurityExpressionHandler"/>
+    <beans:bean id="tokenServices"
+            class="org.springframework.security.oauth2.provider.token.DefaultTokenServices">
+        <beans:property name="tokenStore" ref="inMemoryTokenStore"/>
+        <beans:property name="supportRefreshToken" value="true"/>
+        <beans:property name="clientDetailsService" ref="customClientDetailsService"/>
+    </beans:bean>
+</beans:beans>
