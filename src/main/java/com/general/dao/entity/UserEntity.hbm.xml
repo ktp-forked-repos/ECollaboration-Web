@@ -12,14 +12,10 @@
         <property name="email" column="email"/>
         <property name="emailPwd" column="email_pwd"/>
         <property name="emailType" column="email_type"/>
-        <property name="role" column="role" update="false" insert="false"/>
         <property name="password" column="password"/>
         <property name="name" column="name"/>
         <property name="gender" column="gender"/>
 
-        <many-to-one name="roleByRole" class="com.general.dao.entity.RoleEntity">
-            <column name="role"/>
-        </many-to-one>
         <one-to-one name="studentById" class="com.general.dao.entity.StudentEntity"/>
         <one-to-one name="tutorById" class="com.general.dao.entity.TutorEntity"/>
         <set name="accessesById" inverse="true">
@@ -63,6 +59,12 @@
                 <column name="user"/>
             </key>
             <one-to-many not-found="ignore" class="com.general.dao.entity.ScheduleUserEntity"/>
+        </set>
+        <set name="rolesByUser" inverse="false">
+            <key>
+                <column name="user"/>
+            </key>
+            <one-to-many not-found="ignore" class="com.general.dao.entity.RoleEntity"/>
         </set>
     </class>
 </hibernate-mapping>

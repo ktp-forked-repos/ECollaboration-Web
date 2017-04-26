@@ -5,13 +5,18 @@
 <hibernate-mapping>
 
     <class name="com.general.dao.entity.RoleEntity" table="Role" schema="ECollaborationWeb">
-        <id name="id" column="id"/>
-        <property name="role" column="role"/>
-        <set name="usersById" inverse="true">
-            <key>
-                <column name="role"/>
-            </key>
-            <one-to-many not-found="ignore" class="com.general.dao.entity.UserEntity"/>
-        </set>
+        <id name="id" column="id">
+            <generator class="increment"/>
+        </id>
+        <property name="role" column="role">
+            <type name="org.hibernate.type.EnumType">
+                <param name="enumClass">com.general.Enum.RoleEnum</param>
+            </type>
+        </property>
+        <property name="user" column="user" insert="false" update="false"/>
+        <many-to-one name="userByUser" class="com.general.dao.entity.UserEntity">
+            <column name="user"/>
+        </many-to-one>
+
     </class>
 </hibernate-mapping>

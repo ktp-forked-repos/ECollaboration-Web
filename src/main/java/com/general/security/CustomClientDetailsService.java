@@ -1,5 +1,6 @@
 package com.general.security;
 
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.provider.ClientDetails;
@@ -7,6 +8,7 @@ import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.ClientRegistrationException;
 import org.springframework.security.oauth2.provider.NoSuchClientException;
 import org.springframework.security.oauth2.provider.client.BaseClientDetails;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.LinkedList;
@@ -15,7 +17,7 @@ import java.util.List;
 /**
  * Created by joanna on 3/31/17.
  */
-@Service
+@Component
 public class CustomClientDetailsService implements ClientDetailsService{
     private String clientId="my_trusted_client";
     private String clientSecret="secret";
@@ -40,8 +42,8 @@ public class CustomClientDetailsService implements ClientDetailsService{
             baseClientDetails.setAuthorizedGrantTypes(authorizedGrantTypes);
             baseClientDetails.setAuthorities(authorities);
             baseClientDetails.setScope(scopes);
-            baseClientDetails.setAccessTokenValiditySeconds(120);
-            baseClientDetails.setRefreshTokenValiditySeconds(600);
+            baseClientDetails.setAccessTokenValiditySeconds(1200);
+            baseClientDetails.setRefreshTokenValiditySeconds(6000);
             return baseClientDetails;
         }else{
             throw new NoSuchClientException("");

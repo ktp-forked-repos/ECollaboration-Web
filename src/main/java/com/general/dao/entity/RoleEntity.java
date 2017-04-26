@@ -10,7 +10,6 @@ import java.util.Set;
 public class RoleEntity {
     private Integer id;
     private RoleEnum role;
-    private Set<UserEntity> usersById;
 
     public Integer getId() {
         return id;
@@ -48,11 +47,23 @@ public class RoleEntity {
         return result;
     }
 
-    public Set<UserEntity> getUsersById() {
-        return usersById;
+    private Integer user;
+
+    public Integer getUser() {
+        return user;
     }
 
-    public void setUsersById(Set<UserEntity> usersById) {
-        this.usersById = usersById;
+    public void setUser(Integer user) {
+        this.user = user;
+    }
+
+    private UserEntity userByUser;
+
+    public UserEntity getUserByUser() {
+        return userByUser;
+    }
+
+    public void setUserByUser(UserEntity userByUser) {
+        this.userByUser = userByUser;
     }
 }

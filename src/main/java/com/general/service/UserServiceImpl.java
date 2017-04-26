@@ -1,6 +1,7 @@
 package com.general.service;
 
 import com.general.dao.UserEntityDAOImpl;
+import com.general.dao.entity.RoleEntity;
 import com.general.dao.entity.UserEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by joanna on 3/15/17.
@@ -28,9 +30,12 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public List<String> getRoles(String username) {
-        String role = findByName(username).getRoleByRole().getRole().toString();
         LinkedList<String> roleList = new LinkedList<>();
-        roleList.add(role);
+        UserEntity userEntity = findByName(username);
+        Set<RoleEntity> roleEntities = userEntity.getRolesByUser();
+        for(RoleEntity roleEntity: roleEntities){
+            roleList.add(roleEntity.getRole().toString());
+        }
         return roleList;
     }
 

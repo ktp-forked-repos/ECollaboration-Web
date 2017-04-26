@@ -18,8 +18,14 @@
         <access-denied-handler ref="accessDeniedHandler"/>
         <http-basic entry-point-ref="authenticationEntryPoint"></http-basic>
     </http>
-    <http create-session="never" entry-point-ref="authenticationEntryPoint">
-        <intercept-url pattern="/user/**" access="hasRole('ROLE_USER')"/>
+    <http pattern="/student/**" create-session="never" entry-point-ref="authenticationEntryPoint">
+        <intercept-url pattern="/student/**" access="hasRole('ROLE_STUDENT')"/>
+        <anonymous enabled="false" />
+        <access-denied-handler ref="accessDeniedHandler"/>
+        <custom-filter ref="resourceServerFilter" before="PRE_AUTH_FILTER"/>
+    </http>
+    <http pattern="/tutor/**" create-session="never" entry-point-ref="authenticationEntryPoint">
+        <intercept-url pattern="/tutor/**" access="hasRole('ROLE_TUTOR')"/>
         <anonymous enabled="false" />
         <access-denied-handler ref="accessDeniedHandler"/>
         <custom-filter ref="resourceServerFilter" before="PRE_AUTH_FILTER"/>

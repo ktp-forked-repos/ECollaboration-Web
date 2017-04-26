@@ -1,6 +1,5 @@
 package com.general.security;
 
-import com.general.dao.entity.UserEntity;
 import com.general.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -9,34 +8,41 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
+import javax.servlet.http.HttpServletRequest;
+import java.util.*;
 
 /**
  * Created by joanna on 3/15/17.
  */
-@Service
+@Transactional(readOnly = true)
+@Component
 public class CustomUserDetailsService implements UserDetailsService{
     @Autowired
     private UserService userService;
-    @Transactional(readOnly = true)
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserEntity userEntity = userService.findByName(username);
-        List<String> roles = userService.getRoles(username);
+
+        /*UserDto userDto = userService.findByName(username);
         Set<GrantedAuthority> grantedAuthorities=new HashSet<>();
-        for(Iterator<String> i=roles.iterator(); i.hasNext(); ){
+        for(Iterator<String> i=userDto.getRoles().iterator(); i.hasNext(); ){
             grantedAuthorities.add(new SimpleGrantedAuthority(i.next()));
         }
         return new User(
-                userEntity.getGithub(),
-                userEntity.getPassword(),
+                userDto.getName(),
+                userDto.getPassword(),
                 true, true, true, true,
-                grantedAuthorities);
+                grantedAuthorities);*/
+        String password = userService.findByName(username).getPassword();
+        List<String> roles = userService.getRoles(username);
+        Set<GrantedAuthority> grantedAuthorities=new HashSet<>();
+        for(String role:roles){
+            grantedAuthorities.add(new SimpleGrantedAuthority(role));
+        }
+        return new User(username, password, true, true, true, true, grantedAuthorities);
+
     }
 }

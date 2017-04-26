@@ -1,5 +1,6 @@
 package com.general.dao.entity;
 
+import javax.persistence.OneToMany;
 import java.util.Set;
 
 /**
@@ -13,7 +14,6 @@ public class UserEntity {
     private String email;
     private String emailPwd;
     private String emailType;
-    private Integer role;
     private String password;
     private Set<AccessEntity> accessesById;
     private Set<MailEntity> mailsById;
@@ -24,7 +24,6 @@ public class UserEntity {
     private Set<ScheduleUserEntity> scheduleUsersById;
     private StudentEntity studentById;
     private TutorEntity tutorById;
-    private RoleEntity roleByRole;
     private String name;
     private Integer gender;
 
@@ -100,13 +99,6 @@ public class UserEntity {
         this.emailType = emailType;
     }
 
-    public Integer getRole() {
-        return role;
-    }
-
-    public void setRole(Integer role) {
-        this.role = role;
-    }
 
     public String getPassword() {
         return password;
@@ -222,11 +214,14 @@ public class UserEntity {
         this.tutorById = tutorById;
     }
 
-    public RoleEntity getRoleByRole() {
-        return roleByRole;
+    @OneToMany
+    public Set<RoleEntity> rolesByUser;
+
+    public Set<RoleEntity> getRolesByUser() {
+        return rolesByUser;
     }
 
-    public void setRoleByRole(RoleEntity roleByRole) {
-        this.roleByRole = roleByRole;
+    public void setRolesByUser(Set<RoleEntity> rolesByUser) {
+        this.rolesByUser = rolesByUser;
     }
 }

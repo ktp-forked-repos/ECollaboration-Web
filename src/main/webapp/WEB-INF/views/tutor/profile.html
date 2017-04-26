@@ -26,8 +26,8 @@
                     <label> 性别 </label>
                     <select class="ui dropdown fluid">
                         <option value=""> 请选择性别 </option>
-                        <option th:selected="${profile.gender} == 0" value="1"> 男 </option>
-                        <option th:selected="${profile.gender} == 1" value="2"> 女 </option>
+                        <option th:selected="${profile.gender == T(com.general.Enum.Gender).MALE}" value="1"> 男 </option>
+                        <option th:selected="${profile.gender == T(com.general.Enum.Gender).FEMALE}" value="2"> 女 </option>
                     </select>
                 </div>
 
@@ -59,9 +59,11 @@
                     <label> 邮箱类型 </label>
                     <select class="ui dropdown fluid">
                         <option value=""> 邮箱类型 </option>
-                        <option th:selected="${profile.emailType} == 0" value="1"> USTC </option>
-                        <option th:selected="${profile.emailType} == 1" value="2"> Gmail </option>
-                        <option th:selected="${profile.emailType} == 4" value="3"> QQMail </option>
+                        <option th:each="emailType: ${T(com.general.Enum.EmailType).values()}"
+                                th:value="${emailType}"
+                                th:text="${emailType}"
+                                th:selected="${emailType==profile.emailType}">
+                        </option>
                     </select>
                 </div>
             </div>

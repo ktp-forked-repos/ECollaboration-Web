@@ -99,7 +99,7 @@ public class TutorController {
      * 访问小组管理 - 成绩管理
      * @return 小组管理 - 成绩管理
      */
-    //TODO huhang
+    //TODO huhang ok
     @RequestMapping(path = "/team/score")
     public String teamSchedule(Model model, ScoreAdviceParam scoreAdviceParam,
                                ScoreForStudentParam scoreForStudentParam,
